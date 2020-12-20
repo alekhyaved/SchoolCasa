@@ -62,7 +62,7 @@ class AddApartmentListing extends Component {
       alert("Please enter description");
       return;
     }
-    
+
     let formData = new FormData();
     formData.append("description", this.state.description);
     formData.append("address", this.state.address);
@@ -75,7 +75,7 @@ class AddApartmentListing extends Component {
     }
     formData.append("isParkingAvailable", parking);
     axios
-      .post("http://192.168.0.7:8080" + "/postAptLisiting/", formData)
+      .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData)
       .then(function (response) {
         return response;
       })
@@ -207,7 +207,7 @@ class AddApartmentListing extends Component {
             display="default"
             onChange={(date) => this.setState({ date })}
           /> */}
-          
+
           {/* <View>
             <Button
               onPress={() => alert("button onPress")}
@@ -215,11 +215,11 @@ class AddApartmentListing extends Component {
             />
           </View> */}
           <View>
-            <Button color="#ffdb58" fontWeight = "Bold" 
+            <Button color="#ffdb58"
                titleStyle={{
                   color: "black",
                   fontSize: 20,
-                  fontWeight:"Bold"
+                  // fontWeight:"Bold"
                 }}
                 buttonStyle={{
                   backgroundColor: "#ffdb58",
@@ -227,7 +227,7 @@ class AddApartmentListing extends Component {
                   flex: 1,
                   height: 50,
                   width: "50%",
-                  marginLeft: "25%", 
+                  marginLeft: "25%",
                   marginTop:20
                 }}
                 onPress={this.onPress}

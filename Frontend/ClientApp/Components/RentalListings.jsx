@@ -20,7 +20,7 @@ export function RentalListings({ navigation }) {
 
   useEffect(() => {
     axios
-      .get("http://192.168.0.7:8080/showApartmentListing")
+      .get("http://192.168.86.180:8080/showApartmentListing")
       .then(res => {
         setData(res.data);
       })
@@ -38,18 +38,40 @@ export function RentalListings({ navigation }) {
             <Text></Text>
             <Button
                 onPress={() => {
-                  navigation.navigate("AddApartmentListing");
+                  navigation.navigate("Home");
                 }}
-                title="+"
+                title="Home"
                 // // color="#ffbf58"
                 // backgroundColor="#ffbf58"
-                
+
                 buttonStyle={{
                   backgroundColor: "#ffdb58",
                   // borderRadius: 60,
                   // flex: 1,
                   height: 30,
-                  width: "20%",  
+                  width: "20%",
+                }}
+                titleStyle={{
+                  color: "black",
+                  fontSize: 15,
+                  fontWeight:"Bold"
+                }}
+            />
+            <Text> </Text>
+            <Button
+                onPress={() => {
+                  navigation.navigate("AddApartmentListing");
+                }}
+                title="+"
+                // // color="#ffbf58"
+                // backgroundColor="#ffbf58"
+
+                buttonStyle={{
+                  backgroundColor: "#ffdb58",
+                  // borderRadius: 60,
+                  // flex: 1,
+                  height: 30,
+                  width: "20%",
                 }}
                 titleStyle={{
                   color: "black",
@@ -57,7 +79,7 @@ export function RentalListings({ navigation }) {
                   fontWeight:"Bold"
                 }}
             />
-            <Text></Text>
+            {/*<Text></Text>*/}
           </View>
           <ScrollView>
             {data.map(responseData => (

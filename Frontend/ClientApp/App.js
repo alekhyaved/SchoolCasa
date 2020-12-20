@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ItemList from "./Components/ItemList";
 import AddApartmentListing from "./Components/AddApartmentListing";
+import ItemAddScreen from "./Components/ItemAddScreen";
 
 const Stack = createStackNavigator();
 class App extends React.Component {
@@ -15,6 +16,18 @@ class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="ItemAddScreen" component ={ItemAddScreen}
+
+                          options={{
+                              title: "Add Item Listing",
+                              headerStyle: {
+                                  backgroundColor: "#ffdb58",
+                              },
+                              headerTintColor: "#000000",
+                              headerTitleStyle: {
+                                  fontWeight: "bold",
+                              },
+                          }}/>
           <Stack.Screen
             name="Home"
             component={Home}
@@ -55,7 +68,7 @@ class App extends React.Component {
               },
             }}
           />
-          <Stack.Screen name="Menu" component={CustomMenu} 
+          <Stack.Screen name="Menu" component={CustomMenu}
           options={{
               title: "Menu",
               headerStyle: {
