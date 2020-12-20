@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, ScrollView, FlatList } from "react-native";
+import { View, Text, ScrollView, FlatList,Button } from "react-native";
 import {
   Card,
   ListItem,
-  Button,
+
   Icon,
   Avatar,
   Image,
@@ -13,13 +13,14 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 
-export function RentalListings() {
+export function RentalListings({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  //exp://192.168.86.180:19000
 
   useEffect(() => {
     axios
-      .get("http://192.168.1.5:8080/showApartmentListing")
+      .get("http://192.168.86.180:8080/showApartmentListing")
       .then(res => {
         setData(res.data);
       })
@@ -33,11 +34,18 @@ export function RentalListings() {
         <Text></Text>
       ) : (
         <View>
-          <Text></Text>
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-            Rental Listings
-          </Text>
-          <Text></Text>
+          <View style={{ padding: 10 }}>
+            <Text></Text>
+            <Button
+                onPress={() => {
+                  navigation.navigate("Menu");
+                }}
+                title="Add Apartment"
+                color="blue"
+
+            />
+            <Text></Text>
+          </View>
           <ScrollView>
             {data.map(responseData => (
               <View key={responseData.id} style={styles.item}>

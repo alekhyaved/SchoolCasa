@@ -6,6 +6,7 @@ import { CustomMenu } from "./Components/CustomMenu";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import ItemList from "./Components/ItemList";
 const Stack = createStackNavigator();
 class App extends React.Component {
   render() {
@@ -26,7 +27,8 @@ class App extends React.Component {
               }
             }}
           />
-          <Stack.Screen name="Rental listisngs" component={RentalListings} />
+          <Stack.Screen name="Rental listings" component={RentalListings} />
+          <Stack.Screen name="Item listings" component={ItemList} />
           <Stack.Screen name="Menu" component={CustomMenu} />
         </Stack.Navigator>
       </NavigationContainer>

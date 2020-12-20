@@ -15,13 +15,19 @@ class Home extends React.Component {
       <View>
         <Header
           placement="left"
-          centerComponent={{ text: "Item Listing", color: "#fff" }}
+          centerComponent={{
+              text: "Item Listing",
+              color: "#fff",
+              onPress: () => {
+                  this.props.navigation.navigate("Item listings");
+              }
+          }}
           // centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
           leftComponent={{
             text: "Rental Listing",
             color: "#fff",
             onPress: () => {
-              this.props.navigation.navigate("Rental listisngs");
+              this.props.navigation.navigate("Rental listings");
             }
           }}
           rightComponent={{

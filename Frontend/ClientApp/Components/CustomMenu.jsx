@@ -9,7 +9,7 @@ export class CustomMenu extends React.Component {
       <View>
         <Menu.Item
           onPress={() => {
-            this.props.navigation.navigate("Rental listisngs");
+            this.props.navigation.navigate("Rental listings");
           }}
           title="Rental Listings"
         />
