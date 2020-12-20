@@ -20,7 +20,7 @@ export function RentalListings({ navigation }) {
 
   useEffect(() => {
     axios
-      .get("http://192.168.86.180:8080/showApartmentListing")
+      .get("http://192.168.0.7:8080/showApartmentListing")
       .then(res => {
         setData(res.data);
       })
@@ -38,9 +38,9 @@ export function RentalListings({ navigation }) {
             <Text></Text>
             <Button
                 onPress={() => {
-                  navigation.navigate("Menu");
+                  navigation.navigate("AddApartmentListing");
                 }}
-                title="Add Apartment"
+                title="Add Apartment Listing"
                 color="blue"
 
             />
