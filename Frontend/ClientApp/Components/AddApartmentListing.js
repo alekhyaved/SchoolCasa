@@ -9,11 +9,14 @@ import {
   Keyboard,
   Switch,
   CheckBox,
-  Button,
+
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
+import {
+  Button
+} from "react-native-elements";
 
 class AddApartmentListing extends Component {
   constructor(props) {
@@ -211,9 +214,23 @@ class AddApartmentListing extends Component {
               title="Show date picker!"
             />
           </View> */}
-          <View style={styles.buttonStyle}>
-            <Button style={{backgroundColor :"#FFFFFF" }}
-              onPress={this.onPress}
+          <View>
+            <Button color="#ffdb58" fontWeight = "Bold" 
+               titleStyle={{
+                  color: "black",
+                  fontSize: 20,
+                  fontWeight:"Bold"
+                }}
+                buttonStyle={{
+                  backgroundColor: "#ffdb58",
+                  borderRadius: 60,
+                  flex: 1,
+                  height: 50,
+                  width: "50%",
+                  marginLeft: "25%", 
+                  marginTop:20
+                }}
+                onPress={this.onPress}
               title="Submit"
             />
           </View>
@@ -280,14 +297,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonStyle : {
-    width: "60%",
+    width: "100%",
     marginLeft: "20%",
     marginTop: 10,
-    // height : 50,
-    // borderColor: "#f4511e",
-    // backgroundColor:"#FFFFFF",
-    // borderWidth:2,
-
+    color: "#ffdb58"
   },
 });
 

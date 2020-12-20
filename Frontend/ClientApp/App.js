@@ -19,24 +19,65 @@ class App extends React.Component {
             name="Home"
             component={Home}
             options={{
-              title: "SchoolCasa",
+              title: "School Casa",
               headerStyle: {
-                backgroundColor: "#0000FF"
+                backgroundColor: "#ffdb58",
               },
-              headerTintColor: "#fff",
+              headerTintColor: "#000000",
               headerTitleStyle: {
-                fontWeight: "bold"
-              }
+                fontWeight: "bold",
+              },
             }}
           />
-          <Stack.Screen name="Rental listings" component={RentalListings} />
-          <Stack.Screen name="Item listings" component={ItemList} />
-          <Stack.Screen name="Menu" component={CustomMenu} />
+          <Stack.Screen
+            name="Rental listings"
+            component={RentalListings}
+            options={{
+              headerStyle: {
+                backgroundColor: "#ffdb58",
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Item listings"
+            component={ItemList}
+            options={{
+              headerStyle: {
+                backgroundColor: "#ffdb58",
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen name="Menu" component={CustomMenu} 
+          options={{
+              title: "Menu",
+              headerStyle: {
+                backgroundColor: "#ffdb58",
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}/>
           <Stack.Screen
             name="AddApartmentListing"
             component={AddApartmentListing}
             options={{
               title: "Add Apartment Listing",
+              headerStyle: {
+                backgroundColor: "#ffdb58",
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
             }}
           />
         </Stack.Navigator>

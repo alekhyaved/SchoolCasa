@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, ScrollView, FlatList,Button } from "react-native";
+import { View, Text, ScrollView, FlatList } from "react-native";
 import {
   Card,
   ListItem,
-
+  Button,
   Icon,
   Avatar,
   Image,
@@ -40,9 +40,22 @@ export function RentalListings({ navigation }) {
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
                 }}
-                title="Add Apartment Listing"
-                color="blue"
-
+                title="+"
+                // // color="#ffbf58"
+                // backgroundColor="#ffbf58"
+                
+                buttonStyle={{
+                  backgroundColor: "#ffdb58",
+                  // borderRadius: 60,
+                  // flex: 1,
+                  height: 30,
+                  width: "20%",  
+                }}
+                titleStyle={{
+                  color: "black",
+                  fontSize: 30,
+                  fontWeight:"Bold"
+                }}
             />
             <Text></Text>
           </View>

@@ -13,18 +13,20 @@ class Home extends React.Component {
   render() {
     return (
       <View>
-        <Header
+        <Header style ={styles.headerStyle}
+          // height = "20"
+          backgroundColor = "#ffdb58"
           placement="left"
           centerComponent={{
-              text: "Item Listing",
-              color: "#fff",
+              text: "Item Listings",
+              color: "#000000",
               onPress: () => {
                   this.props.navigation.navigate("Item listings");
               }
           }}
           // centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
           leftComponent={{
-            text: "Rental Listing",
+            text: "Rental Listings",
             color: "#fff",
             onPress: () => {
               this.props.navigation.navigate("Rental listings");
@@ -38,9 +40,10 @@ class Home extends React.Component {
             }
           }}
         />
-        <Text>SchoolCasa</Text>
+        
         <View>
-          <Image
+        {/* <Text style={styles.textLabel}>SchoolCasa</Text> */}
+          {/* <Image
             source={{
               uri:
                 "https://mssecarrental.s3.amazonaws.com/Screen+Shot+2020-12-18+at+3.55.42+PM.png"
@@ -51,11 +54,23 @@ class Home extends React.Component {
               borderColor: "grey",
               borderWidth: 2
             }}
-          />
+          /> */}
         </View>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  headerStyle: {
+    backgroundColor: "#ffffff",
+  },
+  textLabel: {
+    fontSize: 20,
+    marginTop: "25%",
+    // paddingBottom: 10,
+    paddingLeft: 10,
+    // paddingTop: 10,
+  }
+});
 
 export default Home;
