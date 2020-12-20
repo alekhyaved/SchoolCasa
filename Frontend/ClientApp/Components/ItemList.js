@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, FlatList, StyleSheet, Text, View, Image } from 'react-native';
 import axios from "axios";
-import { Tile } from 'react-native-elements';
 
 class FlatListItem extends Component {
     render() {
@@ -81,6 +80,7 @@ export default class ItemList extends Component {
 
                             </FlatListItem>);
                     }}
+                    keyExtractor={(item) => item.toString()}
                 >
                 </FlatList>
             </View>
