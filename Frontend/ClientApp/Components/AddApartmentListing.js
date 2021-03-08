@@ -9,12 +9,15 @@ import {
   Keyboard,
   Switch,
   CheckBox,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { Button } from "react-native-elements";
 import Dates from "react-native-dates";
 import moment from "moment";
+import * as ImagePicker from "expo-image-picker";
 
 class AddApartmentListing extends Component {
   constructor(props) {
@@ -28,6 +31,8 @@ class AddApartmentListing extends Component {
       bedrooms: "1",
       bathrooms: "1",
       date: null,
+      filename: null,
+      localUri: "",
     };
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRentChange = this.handleRentChange.bind(this);
@@ -77,8 +82,26 @@ class AddApartmentListing extends Component {
       parking = 1;
     }
     formData.append("isParkingAvailable", parking);
+    if (this.state.filename != "") {
+      let match = /\.(\w+)$/.exec(this.state.filename);
+      let type = match ? `image/${match[1]}` : `image`;
+      //console.log(type);
+      formData.append("image", {
+        uri: this.state.localUri,
+        name: this.state.filename,
+        type,
+      });
+    } else {
+      formData.append("image", null);
+    }
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    };
     axios
-      .post("http://192.168.0.7:8080" + "/postAptLisiting/", formData)
+      .post("http://192.168.0.7:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })
@@ -99,6 +122,31 @@ class AddApartmentListing extends Component {
   render() {
     const isDateBlocked = (date) => date.isBefore(moment(), "day");
     const onDateChange = ({ date }) => this.setState({ ...this.state, date });
+    let openImagePickerAsync = async () => {
+      let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+      if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return;
+      }
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        aspect: [4, 3],
+      });
+      console.log(pickerResult);
+      // let result = await ImagePicker.launchCameraAsync({
+      //   allowsEditing: true,
+      //   aspect: [4, 3],
+      // });
+
+      if (pickerResult.cancelled) {
+        return;
+      }
+      let localUri = pickerResult.uri;
+      //console.log(localUri);
+      this.state.localUri = localUri;
+      let filename = localUri.split("/").pop();
+      this.setState({ ...this.state.filename, filename });
+      //console.log(filename);
+    };
     return (
       <View style={styles.container}>
         {/* <View>
@@ -201,6 +249,22 @@ class AddApartmentListing extends Component {
               isDateBlocked={isDateBlocked}
             />
           </View>
+          <View style={styles.container}>
+            <Text style={styles.textLabel}>Upload Apartment Images</Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={openImagePickerAsync}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload photo</Text>
+              </TouchableOpacity>
+              {this.state.filename && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename}
+                </Text>
+              )}
+            </View>
+          </View>
           <View>
             <Button
               color="#ffdb58"
@@ -275,12 +339,21 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 10,
   },
+  fileNameStyle: {
+    fontSize: 15,
+    // paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    marginRight: "5%",
+    flex: 1,
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
-    padding: 10,
-    width: "70%",
-    marginLeft: "15%",
+    padding: 5,
+    width: "25%",
+    marginLeft: "5%",
     marginTop: 10,
   },
   buttonStyle: {
@@ -289,16 +362,26 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "#ffdb58",
   },
-  container: {
-    flex: 1,
-    flexGrow: 1,
-    marginTop: 20,
-  },
   date: {
     marginTop: 50,
   },
   focused: {
     color: "blue",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
+  instructions: {
+    color: "#888",
+    fontSize: 18,
+    marginHorizontal: 15,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    color: "#000",
   },
 });
 
