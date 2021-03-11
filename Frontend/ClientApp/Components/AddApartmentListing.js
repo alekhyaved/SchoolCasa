@@ -31,8 +31,12 @@ class AddApartmentListing extends Component {
       bedrooms: "1",
       bathrooms: "1",
       date: null,
-      filename: null,
-      localUri: "",
+      filename1: null,
+      localUri1: null,
+      filename2: null,
+      localUri2: null,
+      filename3: null,
+      localUri3: null,
     };
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRentChange = this.handleRentChange.bind(this);
@@ -82,17 +86,38 @@ class AddApartmentListing extends Component {
       parking = 1;
     }
     formData.append("isParkingAvailable", parking);
-    if (this.state.filename != "") {
-      let match = /\.(\w+)$/.exec(this.state.filename);
+    if (this.state.filename1 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename1);
       let type = match ? `image/${match[1]}` : `image`;
-      //console.log(type);
-      formData.append("image", {
-        uri: this.state.localUri,
-        name: this.state.filename,
+      formData.append("image1", {
+        uri: this.state.localUri1,
+        name: this.state.filename1,
         type,
       });
     } else {
-      formData.append("image", null);
+      formData.append("image1", null);
+    }
+    if (this.state.filename2 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename2);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image2", {
+        uri: this.state.localUri2,
+        name: this.state.filename2,
+        type,
+      });
+    } else {
+      formData.append("image2", null);
+    }
+    if (this.state.filename3 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename3);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image3", {
+        uri: this.state.localUri3,
+        name: this.state.filename3,
+        type,
+      });
+    } else {
+      formData.append("image1", null);
     }
     const config = {
       headers: {
@@ -122,7 +147,7 @@ class AddApartmentListing extends Component {
   render() {
     const isDateBlocked = (date) => date.isBefore(moment(), "day");
     const onDateChange = ({ date }) => this.setState({ ...this.state, date });
-    let openImagePickerAsync = async () => {
+    let openImagePickerAsync = async (value) => {
       let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
       if (permissionResult.granted === false) {
         alert("Permission to access camera roll is required!");
@@ -131,20 +156,38 @@ class AddApartmentListing extends Component {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         aspect: [4, 3],
       });
-      console.log(pickerResult);
+      //console.log(pickerResult);
       // let result = await ImagePicker.launchCameraAsync({
       //   allowsEditing: true,
       //   aspect: [4, 3],
       // });
 
       if (pickerResult.cancelled) {
+        console.log("cancelled");
+        if (value == "1") {
+          this.setState({ localUri1: null });
+          this.setState({ filename1: null });
+        } else if (value == "2") {
+          this.setState({ localUri2: null });
+          this.setState({ filename2: null });
+        } else if (value == "3") {
+          this.setState({ localUri3: null });
+          this.setState({ filename3: null });
+        }
         return;
       }
       let localUri = pickerResult.uri;
-      //console.log(localUri);
-      this.state.localUri = localUri;
       let filename = localUri.split("/").pop();
-      this.setState({ ...this.state.filename, filename });
+      if (value == "1") {
+        this.setState({ localUri1: localUri });
+        this.setState({ filename1: filename });
+      } else if (value == "2") {
+        this.setState({ localUri2: localUri });
+        this.setState({ filename2: filename });
+      } else if (value == "3") {
+        this.setState({ localUri3: localUri });
+        this.setState({ filename3: filename });
+      }
       //console.log(filename);
     };
     return (
@@ -250,17 +293,68 @@ class AddApartmentListing extends Component {
             />
           </View>
           <View style={styles.container}>
-            <Text style={styles.textLabel}>Upload Apartment Images</Text>
+            <Text style={styles.textLabel}>Upload Apartment Photos</Text>
+            <View style={{ flexDirection: "row" }}>
+              {this.state.localUri1 && (
+                <Image
+                  source={{ uri: this.state.localUri1 }}
+                  style={{
+                    width: "30%",
+                    height: 100,
+                    marginRight: "1%",
+                    marginLeft: "3%",
+                  }}
+                />
+              )}
+              {this.state.localUri2 && (
+                <Image
+                  source={{ uri: this.state.localUri2 }}
+                  style={{ width: "30%", height: 100, marginRight: "1%" }}
+                />
+              )}
+              {this.state.localUri3 && (
+                <Image
+                  source={{ uri: this.state.localUri3 }}
+                  style={{ width: "30%", height: 100 }}
+                />
+              )}
+            </View>
             <View style={{ flexDirection: "row" }}>
               <TouchableOpacity
-                onPress={openImagePickerAsync}
+                onPress={() => openImagePickerAsync("1")}
                 style={styles.button}
               >
-                <Text style={styles.buttonText}>Upload photo</Text>
+                <Text style={styles.buttonText}>Upload image1</Text>
               </TouchableOpacity>
-              {this.state.filename && (
+              {this.state.filename1 && (
                 <Text numberOfLines={1} style={styles.fileNameStyle}>
-                  {this.state.filename}
+                  {this.state.filename1}
+                </Text>
+              )}
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => openImagePickerAsync("2")}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload image2</Text>
+              </TouchableOpacity>
+              {this.state.filename2 && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename2}
+                </Text>
+              )}
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => openImagePickerAsync("3")}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload image3</Text>
+              </TouchableOpacity>
+              {this.state.filename3 && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename3}
                 </Text>
               )}
             </View>
