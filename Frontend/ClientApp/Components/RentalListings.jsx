@@ -6,13 +6,12 @@ import {
   Card,
   ListItem,
   Button,
-  Icon,
   Avatar,
   Image,
   Header
 } from "react-native-elements";
 import axios from "axios";
-
+import { AntDesign } from "@expo/vector-icons";
 export function RentalListings({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -20,7 +19,7 @@ export function RentalListings({ navigation }) {
 
   useEffect(() => {
     axios
-      .get("http://192.168.86.180:8080/showApartmentListing")
+      .get("http://192.168.1.9:8080/showApartmentListing")
       .then(res => {
         setData(res.data);
       })
@@ -34,9 +33,11 @@ export function RentalListings({ navigation }) {
         <Text></Text>
       ) : (
         <View>
-          <View style={{ padding: 10 }}>
+          <ScrollView>
             <Text></Text>
-            <Button
+            <View style={{ flexDirection: "row" }}>
+              <Text></Text>
+              <Button
                 onPress={() => {
                   navigation.navigate("Home");
                 }}
@@ -48,17 +49,17 @@ export function RentalListings({ navigation }) {
                   backgroundColor: "#ffdb58",
                   // borderRadius: 60,
                   // flex: 1,
-                  height: 30,
-                  width: "20%",
+                  height: 40,
+                  width: "60%"
                 }}
                 titleStyle={{
                   color: "black",
                   fontSize: 15,
-                  fontWeight:"Bold"
+                  fontWeight: "Bold"
                 }}
-            />
-            <Text> </Text>
-            <Button
+              />
+              <Text></Text>
+              <Button
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
                 }}
@@ -70,22 +71,29 @@ export function RentalListings({ navigation }) {
                   backgroundColor: "#ffdb58",
                   // borderRadius: 60,
                   // flex: 1,
-                  height: 30,
-                  width: "20%",
+                  height: 40,
+                  width: "60%"
                 }}
                 titleStyle={{
                   color: "black",
                   fontSize: 30,
-                  fontWeight:"Bold"
+                  fontWeight: "Bold"
                 }}
-            />
-            {/*<Text></Text>*/}
-          </View>
-          <ScrollView>
+              />
+              <AntDesign
+                name="search1"
+                size={40}
+                color="black"
+                onPress={() => {
+                  navigation.navigate("SearchAndFilter");
+                }}
+              />
+            </View>
+            <Text></Text>
             {data.map(responseData => (
               <View key={responseData.id} style={styles.item}>
                 <Image
-                  source={{ uri: responseData.imageURL }}
+                  source={{ uri: responseData.imageURL1 }}
                   style={{
                     width: 170,
                     height: 150,
@@ -103,6 +111,19 @@ export function RentalListings({ navigation }) {
                   <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
+                </View>
+                <View
+                  style={{ flexDirection: "column", justifyContent: "center" }}
+                >
+                  <AntDesign
+                    name="rightcircle"
+                    size={36}
+                    color="black"
+                    justifyContent="flex-end"
+                    onPress={() => {
+                      navigation.navigate("RentalListingDetails", responseData);
+                    }}
+                  />
                 </View>
               </View>
             ))}

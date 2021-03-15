@@ -9,14 +9,15 @@ import {
   Keyboard,
   Switch,
   CheckBox,
-
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
-import {
-  Button
-} from "react-native-elements";
+import { Button } from "react-native-elements";
+import Dates from "react-native-dates";
+import moment from "moment";
+import * as ImagePicker from "expo-image-picker";
 
 class AddApartmentListing extends Component {
   constructor(props) {
@@ -28,8 +29,14 @@ class AddApartmentListing extends Component {
       isParkingAvailable: false,
       isEnabled: false,
       bedrooms: "1",
-      date: new Date(),
       bathrooms: "1",
+      date: null,
+      filename1: null,
+      localUri1: null,
+      filename2: null,
+      localUri2: null,
+      filename3: null,
+      localUri3: null,
     };
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRentChange = this.handleRentChange.bind(this);
@@ -62,6 +69,10 @@ class AddApartmentListing extends Component {
       alert("Please enter description");
       return;
     }
+    if (this.state.date === null) {
+      alert("Please select date");
+      return;
+    }
 
     let formData = new FormData();
     formData.append("description", this.state.description);
@@ -69,19 +80,59 @@ class AddApartmentListing extends Component {
     formData.append("rent", this.state.rent);
     formData.append("bedrooms", this.state.bedrooms);
     formData.append("bathrooms", this.state.bathrooms);
+    formData.append("availableDate", this.state.date.format("MM/DD/YYYY"));
     let parking = 0;
     if (this.state.isParkingAvailable === true) {
       parking = 1;
     }
     formData.append("isParkingAvailable", parking);
+    if (this.state.filename1 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename1);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image1", {
+        uri: this.state.localUri1,
+        name: this.state.filename1,
+        type,
+      });
+    } else {
+      formData.append("image1", null);
+    }
+    if (this.state.filename2 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename2);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image2", {
+        uri: this.state.localUri2,
+        name: this.state.filename2,
+        type,
+      });
+    } else {
+      formData.append("image2", null);
+    }
+    if (this.state.filename3 != null) {
+      let match = /\.(\w+)$/.exec(this.state.filename3);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image3", {
+        uri: this.state.localUri3,
+        name: this.state.filename3,
+        type,
+      });
+    } else {
+      formData.append("image1", null);
+    }
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    };
     axios
-      .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData)
+      .post("http://192.168.0.7:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })
       .then((data) => {
         // alert(data);
-        this.props.navigation.push('Rental listings')
+        this.props.navigation.push("Rental listings");
       })
       .catch(function (error) {
         // console.log("Error " + JSON.stringify(error));
@@ -93,20 +144,52 @@ class AddApartmentListing extends Component {
     alert(this.state.isEnabled);
   };
 
-  showDatePicker = () => {
-    // console.log("inside showDatePicker mtd");
-    // return (
-    //   <DateTimePicker
-    //     value={this.state.date}
-    //     mode="default"
-    //     display="default"
-    //     onChange={(date) => this.setState({ date })}
-    //   />
-    // );
-  };
-
   render() {
-    const { date } = this.state;
+    const isDateBlocked = (date) => date.isBefore(moment(), "day");
+    const onDateChange = ({ date }) => this.setState({ ...this.state, date });
+    let openImagePickerAsync = async (value) => {
+      let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+      if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return;
+      }
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        aspect: [4, 3],
+      });
+      //console.log(pickerResult);
+      // let result = await ImagePicker.launchCameraAsync({
+      //   allowsEditing: true,
+      //   aspect: [4, 3],
+      // });
+
+      if (pickerResult.cancelled) {
+        console.log("cancelled");
+        if (value == "1") {
+          this.setState({ localUri1: null });
+          this.setState({ filename1: null });
+        } else if (value == "2") {
+          this.setState({ localUri2: null });
+          this.setState({ filename2: null });
+        } else if (value == "3") {
+          this.setState({ localUri3: null });
+          this.setState({ filename3: null });
+        }
+        return;
+      }
+      let localUri = pickerResult.uri;
+      let filename = localUri.split("/").pop();
+      if (value == "1") {
+        this.setState({ localUri1: localUri });
+        this.setState({ filename1: filename });
+      } else if (value == "2") {
+        this.setState({ localUri2: localUri });
+        this.setState({ filename2: filename });
+      } else if (value == "3") {
+        this.setState({ localUri3: localUri });
+        this.setState({ filename3: filename });
+      }
+      //console.log(filename);
+    };
     return (
       <View style={styles.container}>
         {/* <View>
@@ -194,43 +277,105 @@ class AddApartmentListing extends Component {
               onChangeText={this.handleDescriptionChange}
             />
           </View>
-          {/* <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={this.state.isEnabled ? "#f5dd4b" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={this.toggleSwitch}
-            value={this.state.isEnabled}
-          /> */}
-          {/* <DateTimePicker
-            value={date}
-            mode="default"
-            display="default"
-            onChange={(date) => this.setState({ date })}
-          /> */}
-
-          {/* <View>
-            <Button
-              onPress={() => alert("button onPress")}
-              title="Show date picker!"
+          <View style={styles.containerNew}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.textLabel}>Available From</Text>
+              {this.state.date && (
+                <Text style={styles.textLabel}>
+                  {this.state.date && this.state.date.format("MM/DD/YYYY")}
+                </Text>
+              )}
+            </View>
+            <Dates
+              date={this.state.date}
+              onDatesChange={onDateChange}
+              isDateBlocked={isDateBlocked}
             />
-          </View> */}
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.textLabel}>Upload Apartment Photos</Text>
+            <View style={{ flexDirection: "row" }}>
+              {this.state.localUri1 && (
+                <Image
+                  source={{ uri: this.state.localUri1 }}
+                  style={{
+                    width: "30%",
+                    height: 100,
+                    marginRight: "1%",
+                    marginLeft: "3%",
+                  }}
+                />
+              )}
+              {this.state.localUri2 && (
+                <Image
+                  source={{ uri: this.state.localUri2 }}
+                  style={{ width: "30%", height: 100, marginRight: "1%" }}
+                />
+              )}
+              {this.state.localUri3 && (
+                <Image
+                  source={{ uri: this.state.localUri3 }}
+                  style={{ width: "30%", height: 100 }}
+                />
+              )}
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => openImagePickerAsync("1")}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload image1</Text>
+              </TouchableOpacity>
+              {this.state.filename1 && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename1}
+                </Text>
+              )}
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => openImagePickerAsync("2")}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload image2</Text>
+              </TouchableOpacity>
+              {this.state.filename2 && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename2}
+                </Text>
+              )}
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => openImagePickerAsync("3")}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Upload image3</Text>
+              </TouchableOpacity>
+              {this.state.filename3 && (
+                <Text numberOfLines={1} style={styles.fileNameStyle}>
+                  {this.state.filename3}
+                </Text>
+              )}
+            </View>
+          </View>
           <View>
-            <Button color="#ffdb58"
-               titleStyle={{
-                  color: "black",
-                  fontSize: 20,
-                  // fontWeight:"Bold"
-                }}
-                buttonStyle={{
-                  backgroundColor: "#ffdb58",
-                  borderRadius: 60,
-                  flex: 1,
-                  height: 50,
-                  width: "50%",
-                  marginLeft: "25%",
-                  marginTop:20
-                }}
-                onPress={this.onPress}
+            <Button
+              color="#ffdb58"
+              titleStyle={{
+                color: "black",
+                fontSize: 20,
+              }}
+              buttonStyle={{
+                backgroundColor: "#ffdb58",
+                borderRadius: 60,
+                flex: 1,
+                height: 50,
+                width: "50%",
+                marginLeft: "25%",
+                marginTop: 20,
+              }}
+              onPress={this.onPress}
               title="Submit"
             />
           </View>
@@ -288,19 +433,49 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 10,
   },
+  fileNameStyle: {
+    fontSize: 15,
+    // paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    marginRight: "5%",
+    flex: 1,
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
-    padding: 10,
-    width: "70%",
-    marginLeft: "15%",
+    padding: 5,
+    width: "25%",
+    marginLeft: "5%",
     marginTop: 10,
   },
-  buttonStyle : {
+  buttonStyle: {
     width: "100%",
     marginLeft: "20%",
     marginTop: 10,
-    color: "#ffdb58"
+    color: "#ffdb58",
+  },
+  date: {
+    marginTop: 50,
+  },
+  focused: {
+    color: "blue",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
+  instructions: {
+    color: "#888",
+    fontSize: 18,
+    marginHorizontal: 15,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    color: "#000",
   },
 });
 
