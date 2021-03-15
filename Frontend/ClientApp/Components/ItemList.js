@@ -12,19 +12,17 @@ export default class ItemList extends Component {
         items : [],
         editRequest: false,
         search: '',
-        show: false,
+        modalId: null
 
     };
     //192.168.86.180
 
     updateSearch = (event) => {
-        console.log("updatesearch");
         this.setState({search: event.substring(0,20) });
     };
 
     componentDidMount() {
         axios.get("http://192.168.86.180:8080/itemListing").then(response => {
-            console.log(response.data)
             this.setState({ items: response.data });
         });
     }
@@ -45,7 +43,7 @@ export default class ItemList extends Component {
 
                     <Button
                         onPress={() => {
-                            navigation.navigate("Home");
+                            this.props.navigation.navigate("Home");
                         }}
                         title="Home"
                         // // color="#ffbf58"
@@ -90,7 +88,7 @@ export default class ItemList extends Component {
 
                     <Button
                         onPress={() => {
-                            navigation.navigate("ItemAddScreen");
+                            this.props.navigation.navigate("ItemAddScreen");
                         }}
                         title="+"
                         // // color="#ffbf58"
@@ -205,9 +203,9 @@ export default class ItemList extends Component {
 
                             {/*    })}*/}
                             {/*    name="rightcircle" size={30} color="black" style = {styles.nextButton} />*/}
-                            <AntDesign onPress={()=> {this.setState(({show:true}))}} name="rightcircle" size={30} color="black" style = {styles.nextButton}/>
+                            <AntDesign onPress={()=> {this.setState(({modalId:responseData.id}))}} name="rightcircle" size={30} color="black" style = {styles.nextButton}/>
                             {/*<Button title = "show" onPress={()=> {this.setState(({show:true}))}}/>*/}
-                            <Modal transparent={true} visible={this.state.show} >
+                            <Modal transparent={true} visible={this.state.modalId===responseData.id} >
                                 <View style={{backgroundColor:"#000000aa", flex:1}}>
                                     <View style={{backgroundColor:"#ffffff",margin:50,padding:40,borderRadius:10,flex:1}}>
                                         <Image
@@ -233,7 +231,7 @@ export default class ItemList extends Component {
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Warranty : {responseData.warranty.substring(8)}</Text>
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Category : {responseData.category}</Text>
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Age : {responseData.age.substring(3) + " years"}</Text>
-                                        <AntDesign onPress={()=> {this.setState(({show:false}))}} name="close" size={30} color="black" style = {styles.closeButton}/>
+                                        <AntDesign onPress={()=> {this.setState(({modalId:null}))}} name="close" size={30} color="black" style = {styles.closeButton}/>
 
                                     </View>
                                 </View>
