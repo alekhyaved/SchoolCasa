@@ -18,6 +18,8 @@ import { Button } from "react-native-elements";
 import Dates from "react-native-dates";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions'
 
 class AddApartmentListing extends Component {
   constructor(props) {
@@ -37,14 +39,33 @@ class AddApartmentListing extends Component {
       localUri2: null,
       filename3: null,
       localUri3: null,
+      inProgress: false,
+      error:null,
+      latitude:"",
+      longitude:"",
     };
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRentChange = this.handleRentChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleEndEditing = this.handleEndEditing.bind(this);
+  }
+
+  componentDidMount() {
+    // Permissions.askAsync(Permissions.LOCATION);
   }
 
   handleAddressChange(address) {
     this.setState({ address });
+  }
+
+  handleEndEditing = async () =>{
+    //console.log("end editing:"+ this.state.address);
+    let locationAccess = await Permissions.askAsync(Permissions.LOCATION);
+    if (locationAccess !== 'granted') {
+      alert("Permission to access location is required to show your post in the map. Change the setting before adding");
+      return;
+    }
+    this.attemptGeocodeAsync();
   }
 
   handleRentChange(text) {
@@ -57,6 +78,7 @@ class AddApartmentListing extends Component {
 
   onPress = async (event) => {
     //event.preventDefault();
+    
     if (this.state.address.trim() === "") {
       alert("Please enter address");
       return;
@@ -86,6 +108,8 @@ class AddApartmentListing extends Component {
       parking = 1;
     }
     formData.append("isParkingAvailable", parking);
+    formData.append("latitude", this.state.latitude);
+    formData.append("longitude", this.state.longitude);
     if (this.state.filename1 != null) {
       let match = /\.(\w+)$/.exec(this.state.filename1);
       let type = match ? `image/${match[1]}` : `image`;
@@ -142,6 +166,19 @@ class AddApartmentListing extends Component {
   toggleSwitch = () => {
     this.state.isEnabled = !this.state.isEnabled;
     alert(this.state.isEnabled);
+  };
+
+  attemptGeocodeAsync = async () => {
+    this.setState({ inProgress: true, error: null });
+    try {
+      let result = await Location.geocodeAsync(this.state.address);
+      this.setState({ latitude:result[0].latitude });
+      this.setState({ longitude:result[0].longitude });
+    } catch (e) {
+      this.setState({ error: e.message });
+    } finally {
+      this.setState({ inProgress: false });
+    }
   };
 
   render() {
@@ -206,6 +243,7 @@ class AddApartmentListing extends Component {
               numberOfLines={3}
               value={this.state.address}
               onChangeText={this.handleAddressChange}
+              onEndEditing = {this.handleEndEditing}
             />
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.textLabel}>Beds</Text>
