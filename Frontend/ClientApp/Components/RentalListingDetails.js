@@ -40,7 +40,8 @@ export function RentalListingDetails({ navigation, route }) {
         <View>
           <Image
             source={{
-              uri: route.params.imageURL1
+              uri:
+                "https://mssecarrental.s3.amazonaws.com/Screen+Shot+2020-12-19+at+7.10.11+PM.png"
             }}
             style={{
               width: 400,
@@ -52,7 +53,7 @@ export function RentalListingDetails({ navigation, route }) {
         </View>
         <View>
           <Image
-            source={{ uri: route.params.imageURL2 }}
+            source={{ uri: route.params.imageURL }}
             style={{
               width: 400,
               height: 300,
@@ -63,7 +64,10 @@ export function RentalListingDetails({ navigation, route }) {
         </View>
         <View>
           <Image
-            source={{ uri: route.params.imageURL3 }}
+            source={{
+              uri:
+                "https://mssecarrental.s3.amazonaws.com/Screen+Shot+2020-12-19+at+7.08.13+PM.png"
+            }}
             style={{
               width: 400,
               height: 300,
@@ -88,7 +92,7 @@ export function RentalListingDetails({ navigation, route }) {
           Bed/Bath : {route.params.bedrooms}/{route.params.bathrooms}
         </Text>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          Availability : {route.params.availableDate.substring(0, 10)}
+          Availability : {route.params.date}
         </Text>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}></Text>
         <View style={{ flex: 3, padding: 5 }}>
@@ -104,7 +108,7 @@ export function RentalListingDetails({ navigation, route }) {
             titleStyle={{
               color: "black",
               fontSize: 25,
-              fontWeight: "Bold"
+              fontWeight: "bold"
             }}
           />
         </View>

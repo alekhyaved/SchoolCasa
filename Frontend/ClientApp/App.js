@@ -11,13 +11,42 @@ import AddApartmentListing from "./Components/AddApartmentListing";
 import ItemAddScreen from "./Components/ItemAddScreen";
 import { RentalListingDetails } from "./Components/RentalListingDetails";
 import { SearchAndFilter } from "./Components/SearchAndFilter";
+import LoginComponent from "./Components/LoginComponent";
+import amplify from "aws-amplify";
+import config from "./config";
+
+amplify.configure({
+  Auth: {
+    mandatorySignId: true,
+    region: config.cognito.REGION,
+    userPoolId: config.cognito.USER_POOL_ID,
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID
+  },
+  Analytics: {
+    disabled: true
+  }
+});
 
 const Stack = createStackNavigator();
 class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="LoginComponent">
+          <Stack.Screen
+            name="LoginComponent"
+            component={LoginComponent}
+            options={{
+              title: "School Casa",
+              headerStyle: {
+                backgroundColor: "#ffdb58"
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold"
+              }
+            }}
+          />
           <Stack.Screen
             name="ItemAddScreen"
             component={ItemAddScreen}

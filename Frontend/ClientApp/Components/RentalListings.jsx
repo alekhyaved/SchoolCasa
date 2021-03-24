@@ -55,7 +55,7 @@ export function RentalListings({ navigation }) {
                 titleStyle={{
                   color: "black",
                   fontSize: 15,
-                  fontWeight: "Bold"
+                  fontWeight: "bold"
                 }}
               />
               <Text></Text>
@@ -77,7 +77,7 @@ export function RentalListings({ navigation }) {
                 titleStyle={{
                   color: "black",
                   fontSize: 30,
-                  fontWeight: "Bold"
+                  fontWeight: "bold"
                 }}
               />
               <AntDesign
@@ -111,6 +111,20 @@ export function RentalListings({ navigation }) {
                   <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
+                  {/* <AntDesign
+                    name="infocirlce"
+                    size={24}
+                    color="black"
+                    onPress={() => {
+                      navigation.navigate("RentalListingDetails", responseData);
+                    }}
+                  /> */}
+                  {/* <Button
+                    title="ViewDetials"
+                    onPress={() => {
+                      navigation.navigate("RentalListingDetails", responseData);
+                    }}
+                  ></Button> */}
                 </View>
                 <View
                   style={{ flexDirection: "column", justifyContent: "center" }}

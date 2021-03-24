@@ -8,21 +8,23 @@ import {
   Image,
   Header
 } from "react-native-elements";
+import { Auth } from "aws-amplify";
 
 class Home extends React.Component {
   render() {
     return (
       <View>
-        <Header style ={styles.headerStyle}
+        <Header
+          style={styles.headerStyle}
           // height = "20"
-          backgroundColor = "#ffdb58"
+          backgroundColor="#ffdb58"
           placement="left"
           centerComponent={{
-              text: "Item Listings",
-              color: "#000000",
-              onPress: () => {
-                  this.props.navigation.navigate("Item listings");
-              }
+            text: "Item Listings",
+            color: "#000000",
+            onPress: () => {
+              this.props.navigation.navigate("Item listings");
+            }
           }}
           // centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
           leftComponent={{
@@ -32,17 +34,23 @@ class Home extends React.Component {
               this.props.navigation.navigate("Rental listings");
             }
           }}
+          // rightComponent={{
+          //   icon: "menu",
+          //   color: "#fff",
+          //   onPress: () => {
+          //     this.props.navigation.navigate("Menu");
+          //   }
+          // }}
           rightComponent={{
-            icon: "menu",
+            text: "SignOut",
             color: "#fff",
             onPress: () => {
-              this.props.navigation.navigate("Menu");
+              Auth.signOut();
             }
           }}
         />
-        
         <View>
-        {/* <Text style={styles.textLabel}>SchoolCasa</Text> */}
+          {/* <Text style={styles.textLabel}>SchoolCasa</Text> */}
           {/* <Image
             source={{
               uri:
@@ -62,13 +70,13 @@ class Home extends React.Component {
 }
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff"
   },
   textLabel: {
     fontSize: 20,
     marginTop: "25%",
     // paddingBottom: 10,
-    paddingLeft: 10,
+    paddingLeft: 10
     // paddingTop: 10,
   }
 });
