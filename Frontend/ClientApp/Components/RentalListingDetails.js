@@ -99,9 +99,9 @@ export function RentalListingDetails({ navigation, route }) {
               onPress={() => {
                 Linking.openURL(
                   "https://www.google.com/maps/dir/?api=1&destination=" +
-                    route.params.longitude +
+                    route.params.latitude +
                     "," +
-                    route.params.latitude
+                    route.params.longitude
                 );
               }}
               title="Get Directions"

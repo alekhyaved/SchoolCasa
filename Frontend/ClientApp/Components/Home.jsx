@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import {
   Card,
   ListItem,
   Icon,
   Avatar,
   Image,
-  Header
+  Header,
 } from "react-native-elements";
 import { Auth } from "aws-amplify";
 
@@ -24,7 +25,7 @@ class Home extends React.Component {
             color: "#000000",
             onPress: () => {
               this.props.navigation.navigate("Item listings");
-            }
+            },
           }}
           // centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
           leftComponent={{
@@ -32,7 +33,7 @@ class Home extends React.Component {
             color: "#fff",
             onPress: () => {
               this.props.navigation.navigate("Rental listings");
-            }
+            },
           }}
           // rightComponent={{
           //   icon: "menu",
@@ -46,7 +47,7 @@ class Home extends React.Component {
             color: "#fff",
             onPress: () => {
               Auth.signOut();
-            }
+            },
           }}
         />
         <View>
@@ -63,6 +64,24 @@ class Home extends React.Component {
               borderWidth: 2
             }}
           /> */}
+
+          <Text></Text>
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate("MyList");
+            }}
+            title="My List"
+            buttonStyle={{
+              backgroundColor: "#ffdb58",
+              height: 40,
+              width: 100,
+              marginLeft: 10,
+            }}
+            titleStyle={{
+              color: "black",
+              fontSize: 15,
+            }}
+          />
         </View>
       </View>
     );
@@ -70,15 +89,15 @@ class Home extends React.Component {
 }
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   textLabel: {
     fontSize: 20,
     marginTop: "25%",
     // paddingBottom: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
     // paddingTop: 10,
-  }
+  },
 });
 
 export default Home;

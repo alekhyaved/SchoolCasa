@@ -14,6 +14,7 @@ import { SearchAndFilter } from "./Components/SearchAndFilter";
 import LoginComponent from "./Components/LoginComponent";
 import amplify from "aws-amplify";
 import config from "./config";
+import {MyList} from "./Components/MyList";
 
 amplify.configure({
   Auth: {
@@ -143,12 +144,25 @@ class App extends React.Component {
               }
             }}
           />
-
           <Stack.Screen
             name="SearchAndFilter"
             component={SearchAndFilter}
             options={{
               title: "Search-Filter",
+              headerStyle: {
+                backgroundColor: "#ffdb58"
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold"
+              }
+            }}
+          />
+          <Stack.Screen
+            name="MyList"
+            component={MyList}
+            options={{
+              title: "My Listings",
               headerStyle: {
                 backgroundColor: "#ffdb58"
               },
