@@ -31,8 +31,7 @@ export function RentalListingDetails({ navigation, route }) {
           <View>
             <Image
               source={{
-                uri:
-                  "https://mssecarrental.s3.amazonaws.com/Screen+Shot+2020-12-19+at+7.10.11+PM.png"
+                uri: route.params.imageURL1
               }}
               style={{
                 width: 400,
@@ -44,7 +43,7 @@ export function RentalListingDetails({ navigation, route }) {
           </View>
           <View>
             <Image
-              source={{ uri: route.params.imageURL }}
+              source={{ uri: route.params.imageURL2 }}
               style={{
                 width: 400,
                 height: 300,
@@ -56,8 +55,7 @@ export function RentalListingDetails({ navigation, route }) {
           <View>
             <Image
               source={{
-                uri:
-                  "https://mssecarrental.s3.amazonaws.com/Screen+Shot+2020-12-19+at+7.08.13+PM.png"
+                uri: route.params.imageURL3
               }}
               style={{
                 width: 400,
