@@ -61,8 +61,8 @@ class AddApartmentListing extends Component {
   handleEndEditing = async () =>{
     //console.log("end editing:"+ this.state.address);
     let locationAccess = await Permissions.askAsync(Permissions.LOCATION);
-    if (locationAccess !== 'granted') {
-      alert("Permission to access location is required to show your post in the map. Change the setting before adding");
+    if (locationAccess.granted ==false) {
+      alert("Permission to access location is required to show your post in the map view. Change the settings before adding your post.");
       return;
     }
     this.attemptGeocodeAsync();
@@ -78,7 +78,6 @@ class AddApartmentListing extends Component {
 
   onPress = async (event) => {
     //event.preventDefault();
-    
     if (this.state.address.trim() === "") {
       alert("Please enter address");
       return;
@@ -110,6 +109,7 @@ class AddApartmentListing extends Component {
     formData.append("isParkingAvailable", parking);
     formData.append("latitude", this.state.latitude);
     formData.append("longitude", this.state.longitude);
+    formData.append("email",email);
     if (this.state.filename1 != null) {
       let match = /\.(\w+)$/.exec(this.state.filename1);
       let type = match ? `image/${match[1]}` : `image`;
@@ -150,7 +150,7 @@ class AddApartmentListing extends Component {
       },
     };
     axios
-      .post("http://192.168.0.7:8080" + "/postAptLisiting/", formData, config)
+      .post("http://10.233.20.244:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })
