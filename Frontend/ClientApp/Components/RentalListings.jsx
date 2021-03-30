@@ -12,18 +12,27 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
-export function RentalListings({ navigation }) {
+export default function RentalListings({navigation}) {
+  // {navigation}
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
 
   useEffect(() => {
+    const config = {
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+    };
+
     axios
       .get("http://192.168.1.9:8080/showApartmentListing")
-      .then(res => {
-        setData(res.data);
+      .then(function(response) {
+        setData(response.data);
+        // return response;
       })
-      .catch(error => console.error(error))
+      .catch(function(error) {})
       .finally(() => setLoading(false));
   }, []);
 
