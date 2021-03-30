@@ -14,6 +14,7 @@ import { SearchAndFilter } from "./Components/SearchAndFilter";
 import LoginComponent from "./Components/LoginComponent";
 import amplify from "aws-amplify";
 import config from "./config";
+import {MyList} from "./Components/MyList";
 
 amplify.configure({
   Auth: {
@@ -31,8 +32,10 @@ const Stack = createStackNavigator();
 
 class App extends React.Component {
   render() {
+
     return ( 
            <LoginComponent />
+
     );
   }
 }

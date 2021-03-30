@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import {
@@ -6,15 +7,13 @@ import {
   Icon,
   Avatar,
   Image,
-  Header
+  Header,
 } from "react-native-elements";
 import { Auth } from "aws-amplify";
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons} from '@expo/vector-icons';
-
 import RentalListings from './RentalListings' ;
 import ItemList from './ItemList';
 import AddApartmentListing from "./AddApartmentListing";
@@ -193,20 +192,21 @@ class Home extends React.Component {
           component={signOutStack} />
       </Drawer.Navigator>
     </NavigationContainer>
+
     );
   }
 }
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   textLabel: {
     fontSize: 20,
     marginTop: "25%",
     // paddingBottom: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
     // paddingTop: 10,
-  }
+  },
 });
 
 export default Home;
