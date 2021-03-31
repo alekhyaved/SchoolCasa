@@ -136,11 +136,12 @@ class ItemAddScreen extends Component {
         };
         //192.168.86.180
         axios
-            .post("http://192.168.86.180:8080/postItem", newItem, configure)
+            // .post("http://192.168.86.180:8080/postItem", newItem, configure)
+            .post("http://192.168.0.31:8080/postItem", newItem, configure)
             .then(response => {
                 console.log("Item : " + JSON.stringify(response));
                 // alert("Item Added Successfully");
-                this.props.navigation.navigate('Item listings')
+                this.props.navigation.navigate('ItemList')
                 // this.props.history.push("/admin/vehicleList");
             })
             .catch(error => {
