@@ -150,13 +150,14 @@ class AddApartmentListing extends Component {
       },
     };
     axios
-      .post("http://10.233.20.244:8080" + "/postAptLisiting/", formData, config)
+      // .post("http://10.233.20.244:8080" + "/postAptLisiting/", formData, config)
+      .post("http://192.168.0.31:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })
       .then((data) => {
         // alert(data);
-        this.props.navigation.push("Rental listings");
+        this.props.navigation.push("RentalListings");
       })
       .catch(function (error) {
         // console.log("Error " + JSON.stringify(error));
