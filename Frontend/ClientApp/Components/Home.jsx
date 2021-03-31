@@ -15,6 +15,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons} from '@expo/vector-icons';
 import RentalListings from './RentalListings' ;
+import RentalListingDetails from './RentalListingDetails' ;
 import ItemList from './ItemList';
 import AddApartmentListing from "./AddApartmentListing";
 import ItemAddScreen from "./ItemAddScreen";
@@ -60,6 +61,20 @@ function rentalListingsStack({ navigation }) {
             headerTitleStyle: {
               fontWeight: 'bold', //Set Header text style
             },
+          }}
+        />
+           <Stack.Screen
+          name="RentalListingDetails"
+          component={RentalListingDetails}
+          options={{
+            title: "Rental Listing Details",
+            headerStyle: {
+              backgroundColor: "#ffdb58"
+            },
+            headerTintColor: "#000000",
+            headerTitleStyle: {
+              fontWeight: "bold"
+            }
           }}
         />
         <Stack.Screen
@@ -149,6 +164,20 @@ function itemListingsStack({ navigation }) {
           component={ItemAddScreen}
           options={{
             title: "Add Item Listing",
+            headerStyle: {
+              backgroundColor: "#ffdb58"
+            },
+            headerTintColor: "#000000",
+            headerTitleStyle: {
+              fontWeight: "bold"
+            }
+          }}
+        />
+        <Stack.Screen
+          name="ItemList"
+          component={ItemList}
+          options={{
+            title: "Item List Details",
             headerStyle: {
               backgroundColor: "#ffdb58"
             },
