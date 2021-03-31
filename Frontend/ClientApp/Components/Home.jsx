@@ -19,6 +19,7 @@ import ItemList from './ItemList';
 import AddApartmentListing from "./AddApartmentListing";
 import ItemAddScreen from "./ItemAddScreen";
 import { SearchAndFilter } from "./SearchAndFilter";
+import {MyList} from "./MyList";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -89,6 +90,20 @@ function rentalListingsStack({ navigation }) {
             }
           }}
         /> */}
+           <Stack.Screen
+            name="MyList"
+            component={MyList}
+            options={{
+              title: "My Listings",
+              headerStyle: {
+                backgroundColor: "#ffdb58"
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold"
+              }
+            }}
+          />
               <Stack.Screen
           name="SearchAndFilter"
           component={SearchAndFilter}
@@ -192,6 +207,7 @@ class Home extends React.Component {
           component={signOutStack} />
       </Drawer.Navigator>
     </NavigationContainer>
+
 
     );
   }

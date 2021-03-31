@@ -12,6 +12,7 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import {MyList} from "./MyList";
 export default function RentalListings({navigation}) {
   // {navigation}
   const [isLoading, setLoading] = useState(true);
@@ -68,6 +69,26 @@ export default function RentalListings({navigation}) {
                 }}
               />
               <Text></Text>
+
+          <Button
+            onPress={() => {
+              navigation.navigate("MyList");
+            }}
+            title="My List"
+            buttonStyle={{
+              backgroundColor: "#ffdb58",
+              height: 40,
+              width: "40%",
+              marginLeft: 10,
+            }}
+            titleStyle={{
+              color: "black",
+              fontSize: 15,
+            }}
+          />
+
+          <Text></Text>
+
               <Button
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
@@ -81,7 +102,7 @@ export default function RentalListings({navigation}) {
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "60%"
+                  width: "40%"
                 }}
                 titleStyle={{
                   color: "black",
