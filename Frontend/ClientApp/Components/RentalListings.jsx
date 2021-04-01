@@ -28,7 +28,8 @@ export default function RentalListings({navigation}) {
     };
 
     axios
-      .get("http://192.168.1.9:8080/showApartmentListing")
+      // .get("http://192.168.1.9:8080/showApartmentListing")
+      .get("http://192.168.0.31:8080/showApartmentListing")
       .then(function(response) {
         setData(response.data);
         // return response;
@@ -47,7 +48,7 @@ export default function RentalListings({navigation}) {
             <Text></Text>
             <View style={{ flexDirection: "row" }}>
               <Text></Text>
-              <Button
+              {/* <Button
                 onPress={() => {
                   navigation.navigate("Home");
                 }}
@@ -67,7 +68,7 @@ export default function RentalListings({navigation}) {
                   fontSize: 15,
                   fontWeight: "bold"
                 }}
-              />
+              /> */}
               <Text></Text>
 
           <Button
@@ -78,7 +79,7 @@ export default function RentalListings({navigation}) {
             buttonStyle={{
               backgroundColor: "#ffdb58",
               height: 40,
-              width: "40%",
+              width: "60%",
               marginLeft: 10,
             }}
             titleStyle={{

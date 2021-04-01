@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Linking } from "react-native";
 import { Button, Image } from "react-native-elements";
 import Swiper from "react-native-swiper";
 
-export function RentalListingDetails({ navigation, route }) {
+export default function RentalListingDetails({ navigation, route }) {
   return (
     <View style={{ flex: 1, padding: 2 }}>
       <ScrollView>
@@ -29,7 +29,8 @@ export function RentalListingDetails({ navigation, route }) {
           showsButtons
         >
           <View>
-            <Image
+          {/* {route.params.imageURL1 &&  */}
+          <Image
               source={{
                 uri: route.params.imageURL1
               }}
@@ -53,6 +54,7 @@ export function RentalListingDetails({ navigation, route }) {
             />
           </View>
           <View>
+            
             <Image
               source={{
                 uri: route.params.imageURL3

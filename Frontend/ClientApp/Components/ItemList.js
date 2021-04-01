@@ -22,7 +22,8 @@ export default class ItemList extends Component {
     };
 
     componentDidMount() {
-        axios.get("http://192.168.86.180:8080/itemListing").then(response => {
+        // axios.get("http://192.168.86.180:8080/itemListing").then(response => {
+        axios.get("http://192.168.0.31:8080/itemListing").then(response => {    
             this.setState({ items: response.data });
         });
     }
@@ -41,7 +42,7 @@ export default class ItemList extends Component {
 
                 <View style={{ flexDirection: "row" }}>
 
-                    <Button
+                    {/* <Button
                         onPress={() => {
                             this.props.navigation.navigate("Home");
                         }}
@@ -62,8 +63,7 @@ export default class ItemList extends Component {
                             fontSize: 15,
                             fontWeight: "Bold"
                         }}
-                    />
-
+                    /> */}
                     <Button
                         // onPress={() => {
                         //     navigation.navigate("ItemAddScreen");
@@ -108,50 +108,7 @@ export default class ItemList extends Component {
                             fontWeight: "Bold"
                         }}
                     />
-                  {/*<SearchBar*/}
-                    {/*    inputStyle={{backgroundColor: 'white'}}*/}
-                    {/*    placeholder="Search Item..."*/}
-                    {/*    onChangeText={this.updateSearch}*/}
-                    {/*    containerStyle={{backgroundColor: 'white'}}*/}
-                    {/*    value={search}*/}
-
-
-                    {/*/>*/}
                 </View>
-
-                {/*<Header style ={styles.headerStyle}*/}
-                {/*        backgroundColor = "#ffdb58"*/}
-                {/*        placement="left"*/}
-                {/*        centerComponent={{*/}
-                {/*            text: "+",*/}
-                {/*            textColor : "fff",*/}
-                {/*            color: "#fff",*/}
-                {/*            size:"70",*/}
-                {/*            onPress: () => {*/}
-                {/*                this.props.navigation.navigate("ItemAddScreen");*/}
-                {/*            }*/}
-                {/*        }}*/}
-
-                {/*        leftComponent={{*/}
-                {/*            icon: "home",*/}
-                {/*            color: "#111111",*/}
-                {/*            onPress: () => {*/}
-                {/*                this.props.navigation.navigate("Home");*/}
-                {/*            }*/}
-                {/*        }}*/}
-
-                {/*        rightComponent={{*/}
-                {/*            icon: "settings",*/}
-                {/*            color: "#fff",*/}
-                {/*            // onPress: () => {*/}
-                {/*            //     this.props.navigation.navigate("Menu");*/}
-                {/*            // }*/}
-                {/*        }} />*/}
-                {/*, borderWidth: 1, borderRadius: 5*/}
-
-
-
-
 
                 <SearchBar
                     inputStyle={{backgroundColor: 'white'}}
