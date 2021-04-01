@@ -55,7 +55,7 @@ function rentalListingsStack({ navigation }) {
                 navigationProps={navigation}
               />,
             headerStyle: {
-              backgroundColor: '#f4511e', //Set Header color
+              backgroundColor: '#ffdb58', //Set Header color
             },
             headerTintColor: '#fff', //Set Header text color
             headerTitleStyle: {
@@ -137,6 +137,33 @@ function rentalListingsStack({ navigation }) {
   );
 }
 
+function myRentalListingsStack({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="MyList"
+    >
+      <Stack.Screen
+        name="MyList"
+        component={MyList}
+        options={{
+          title: 'School Casa', //Set Header Title
+            headerLeft: ()=>
+              <NavigationDrawerStructure
+                navigationProps={navigation}
+              />,
+            headerStyle: {
+              backgroundColor: '#ffdb58', //Set Header color
+            },
+            headerTintColor: '#fff', //Set Header text color
+            headerTitleStyle: {
+              fontWeight: 'bold', //Set Header text style
+            },
+        }}/>
+    </Stack.Navigator>
+  );
+}
+
+
 function itemListingsStack({ navigation }) {
   return (
     <Stack.Navigator
@@ -152,7 +179,7 @@ function itemListingsStack({ navigation }) {
                 navigationProps={navigation}
               />,
             headerStyle: {
-              backgroundColor: '#f4511e', //Set Header color
+              backgroundColor: '#ffdb58', //Set Header color
             },
             headerTintColor: '#fff', //Set Header text color
             headerTitleStyle: {
@@ -226,6 +253,10 @@ class Home extends React.Component {
           name="Rental Listings"
           options={{ drawerLabel: 'Rental Listings' }}
           component={rentalListingsStack} />
+        <Drawer.Screen
+          name="My rental list"
+          options={{ drawerLabel: 'My rental list' }}
+          component={myRentalListingsStack} />
         <Drawer.Screen
           name="Item Listings"
           options={{ drawerLabel: 'Item Listings' }}

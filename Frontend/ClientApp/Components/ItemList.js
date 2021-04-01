@@ -82,7 +82,7 @@ export default class ItemList extends Component {
                         titleStyle={{
                             color: "black",
                             fontSize: 15,
-                            fontWeight: "Bold"
+                            fontWeight: "bold"
                         }}
                     />
 
@@ -105,11 +105,10 @@ export default class ItemList extends Component {
                         titleStyle={{
                             color: "black",
                             fontSize: 30,
-                            fontWeight: "Bold"
+                            fontWeight: "bold"
                         }}
                     />
                 </View>
-
                 <SearchBar
                     inputStyle={{backgroundColor: 'white'}}
                     placeholder="Search Item..."
