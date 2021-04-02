@@ -36,7 +36,7 @@ export default function RentalListings({navigation}) {
       })
       .catch(function(error) {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [data]);
 
   return (
     <View style={{ flex: 1, padding: 0 }}>
