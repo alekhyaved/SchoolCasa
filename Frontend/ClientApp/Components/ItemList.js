@@ -41,29 +41,6 @@ export default class ItemList extends Component {
                         keyboardShouldPersistTaps='handled'>
 
                 <View style={{ flexDirection: "row" }}>
-
-                    {/* <Button
-                        onPress={() => {
-                            this.props.navigation.navigate("Home");
-                        }}
-                        title="Home"
-                        // // color="#ffbf58"
-                        // backgroundColor="#ffbf58"
-
-                        buttonStyle={{
-                            backgroundColor: "#ffdb58",
-                            // borderRadius: 60,
-                            // flex: 1,
-                            left:0,
-                            height: 40,
-                            width: "60%"
-                        }}
-                        titleStyle={{
-                            color: "black",
-                            fontSize: 15,
-                            fontWeight: "Bold"
-                        }}
-                    /> */}
                     <Button
                         // onPress={() => {
                         //     navigation.navigate("ItemAddScreen");
