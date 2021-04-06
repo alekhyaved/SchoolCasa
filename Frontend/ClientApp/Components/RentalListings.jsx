@@ -71,7 +71,7 @@ export default function RentalListings({navigation}) {
               /> */}
               <Text></Text>
 
-          <Button
+          {/* <Button
             onPress={() => {
               navigation.navigate("MyList");
             }}
@@ -86,7 +86,7 @@ export default function RentalListings({navigation}) {
               color: "black",
               fontSize: 15,
             }}
-          />
+          /> */}
 
           <Text></Text>
 
@@ -103,7 +103,8 @@ export default function RentalListings({navigation}) {
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "40%"
+                  width: "60%",
+                  marginLeft: 15,
                 }}
                 titleStyle={{
                   color: "black",
