@@ -246,7 +246,9 @@ class Home extends React.Component {
       <NavigationContainer>
       <Drawer.Navigator
         drawerContentOptions={{
-          activeTintColor: '#e91e63',
+          activeTintColor: '#000000',
+          activeBackgroundColor:"#ffdb58",
+          // '#e91e63',
           itemStyle: { marginVertical: 5 },
         }}>
         <Drawer.Screen
