@@ -12,12 +12,14 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import {MyList} from "./MyList";
 export default function RentalListings({navigation}) {
   // {navigation}
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
+  const mapView = false;
 
   useEffect(() => {
     const config = {
@@ -29,7 +31,7 @@ export default function RentalListings({navigation}) {
 
     axios
       // .get("http://192.168.1.9:8080/showApartmentListing")
-      .get("http://192.168.0.31:8080/showApartmentListing")
+      .get("http://192.168.86.180:8080/showApartmentListing")
       .then(function(response) {
         setData(response.data);
         // return response;
@@ -38,6 +40,8 @@ export default function RentalListings({navigation}) {
       .finally(() => setLoading(false));
   }, [data]);
 
+
+if(mapView == false)
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -120,6 +124,15 @@ export default function RentalListings({navigation}) {
                   navigation.navigate("SearchAndFilter");
                 }}
               />
+              <Text>                            </Text>
+
+              <Entypo
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  name="location-pin" size={42} color="blue" />
+
+
             </View>
             <Text></Text>
             {data.map(responseData => (
