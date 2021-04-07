@@ -22,7 +22,8 @@ export default class ItemList extends Component {
     };
 
     componentDidMount() {
-        axios.get("http://192.168.86.180:8080/itemListing").then(response => {
+        // axios.get("http://192.168.86.180:8080/itemListing").then(response => {
+        axios.get("http://192.168.0.31:8080/itemListing").then(response => {    
             this.setState({ items: response.data });
         });
     }
@@ -40,30 +41,6 @@ export default class ItemList extends Component {
                         keyboardShouldPersistTaps='handled'>
 
                 <View style={{ flexDirection: "row" }}>
-
-                    <Button
-                        onPress={() => {
-                            this.props.navigation.navigate("Home");
-                        }}
-                        title="Home"
-                        // // color="#ffbf58"
-                        // backgroundColor="#ffbf58"
-
-                        buttonStyle={{
-                            backgroundColor: "#ffdb58",
-                            // borderRadius: 60,
-                            // flex: 1,
-                            left:0,
-                            height: 40,
-                            width: "60%"
-                        }}
-                        titleStyle={{
-                            color: "black",
-                            fontSize: 15,
-                            fontWeight: "Bold"
-                        }}
-                    />
-
                     <Button
                         // onPress={() => {
                         //     navigation.navigate("ItemAddScreen");
@@ -82,7 +59,7 @@ export default class ItemList extends Component {
                         titleStyle={{
                             color: "black",
                             fontSize: 15,
-                            fontWeight: "Bold"
+                            fontWeight: "bold"
                         }}
                     />
 
@@ -105,54 +82,10 @@ export default class ItemList extends Component {
                         titleStyle={{
                             color: "black",
                             fontSize: 30,
-                            fontWeight: "Bold"
+                            fontWeight: "bold"
                         }}
                     />
-                  {/*<SearchBar*/}
-                    {/*    inputStyle={{backgroundColor: 'white'}}*/}
-                    {/*    placeholder="Search Item..."*/}
-                    {/*    onChangeText={this.updateSearch}*/}
-                    {/*    containerStyle={{backgroundColor: 'white'}}*/}
-                    {/*    value={search}*/}
-
-
-                    {/*/>*/}
                 </View>
-
-                {/*<Header style ={styles.headerStyle}*/}
-                {/*        backgroundColor = "#ffdb58"*/}
-                {/*        placement="left"*/}
-                {/*        centerComponent={{*/}
-                {/*            text: "+",*/}
-                {/*            textColor : "fff",*/}
-                {/*            color: "#fff",*/}
-                {/*            size:"70",*/}
-                {/*            onPress: () => {*/}
-                {/*                this.props.navigation.navigate("ItemAddScreen");*/}
-                {/*            }*/}
-                {/*        }}*/}
-
-                {/*        leftComponent={{*/}
-                {/*            icon: "home",*/}
-                {/*            color: "#111111",*/}
-                {/*            onPress: () => {*/}
-                {/*                this.props.navigation.navigate("Home");*/}
-                {/*            }*/}
-                {/*        }}*/}
-
-                {/*        rightComponent={{*/}
-                {/*            icon: "settings",*/}
-                {/*            color: "#fff",*/}
-                {/*            // onPress: () => {*/}
-                {/*            //     this.props.navigation.navigate("Menu");*/}
-                {/*            // }*/}
-                {/*        }} />*/}
-                {/*, borderWidth: 1, borderRadius: 5*/}
-
-
-
-
-
                 <SearchBar
                     inputStyle={{backgroundColor: 'white'}}
                     placeholder="Search Item..."

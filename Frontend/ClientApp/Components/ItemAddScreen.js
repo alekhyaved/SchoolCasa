@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View,Picker,Button, Keyboard, Image } from 'react-native';
+import { StyleSheet, Text, View,Picker,Button, Keyboard, Image,ScrollView } from 'react-native';
 import { TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
@@ -136,11 +136,12 @@ class ItemAddScreen extends Component {
         };
         //192.168.86.180
         axios
-            .post("http://192.168.86.180:8080/postItem", newItem, configure)
+            // .post("http://192.168.86.180:8080/postItem", newItem, configure)
+            .post("http://192.168.0.31:8080/postItem", newItem, configure)
             .then(response => {
                 console.log("Item : " + JSON.stringify(response));
                 // alert("Item Added Successfully");
-                this.props.navigation.navigate('Item listings')
+                this.props.navigation.navigate('ItemList')
                 // this.props.history.push("/admin/vehicleList");
             })
             .catch(error => {
@@ -157,7 +158,7 @@ class ItemAddScreen extends Component {
     {
         return (
             <View style={styles.container}>
-
+                 <ScrollView>
                 <Text
                     style={{marginTop: 40, marginLeft: 120, fontFamily: "Roboto", fontSize: 20, fontWeight: "bold"}}>Add
                     an Item</Text>
@@ -280,6 +281,7 @@ class ItemAddScreen extends Component {
 
                 {/* Item add ends here */}
                 <StatusBar style="auto"/>
+                </ScrollView>
             </View>
         );
     }

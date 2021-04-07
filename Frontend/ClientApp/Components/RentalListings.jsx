@@ -12,20 +12,31 @@ import {
 } from "react-native-elements";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
-export function RentalListings({ navigation }) {
+import {MyList} from "./MyList";
+export default function RentalListings({navigation}) {
+  // {navigation}
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
 
   useEffect(() => {
+    const config = {
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+    };
+
     axios
-      .get("http://192.168.1.9:8080/showApartmentListing")
-      .then(res => {
-        setData(res.data);
+      // .get("http://192.168.1.9:8080/showApartmentListing")
+      .get("http://192.168.0.31:8080/showApartmentListing")
+      .then(function(response) {
+        setData(response.data);
+        // return response;
       })
-      .catch(error => console.error(error))
+      .catch(function(error) {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [data]);
 
   return (
     <View style={{ flex: 1, padding: 0 }}>
@@ -37,7 +48,7 @@ export function RentalListings({ navigation }) {
             <Text></Text>
             <View style={{ flexDirection: "row" }}>
               <Text></Text>
-              <Button
+              {/* <Button
                 onPress={() => {
                   navigation.navigate("Home");
                 }}
@@ -55,10 +66,30 @@ export function RentalListings({ navigation }) {
                 titleStyle={{
                   color: "black",
                   fontSize: 15,
-                  fontWeight: "Bold"
+                  fontWeight: "bold"
                 }}
-              />
+              /> */}
               <Text></Text>
+
+          {/* <Button
+            onPress={() => {
+              navigation.navigate("MyList");
+            }}
+            title="My List"
+            buttonStyle={{
+              backgroundColor: "#ffdb58",
+              height: 40,
+              width: "60%",
+              marginLeft: 10,
+            }}
+            titleStyle={{
+              color: "black",
+              fontSize: 15,
+            }}
+          /> */}
+
+          <Text></Text>
+
               <Button
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
@@ -72,12 +103,13 @@ export function RentalListings({ navigation }) {
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "60%"
+                  width: "60%",
+                  marginLeft: 15,
                 }}
                 titleStyle={{
                   color: "black",
                   fontSize: 30,
-                  fontWeight: "Bold"
+                  fontWeight: "bold"
                 }}
               />
               <AntDesign
@@ -111,6 +143,20 @@ export function RentalListings({ navigation }) {
                   <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
+                  {/* <AntDesign
+                    name="infocirlce"
+                    size={24}
+                    color="black"
+                    onPress={() => {
+                      navigation.navigate("RentalListingDetails", responseData);
+                    }}
+                  /> */}
+                  {/* <Button
+                    title="ViewDetials"
+                    onPress={() => {
+                      navigation.navigate("RentalListingDetails", responseData);
+                    }}
+                  ></Button> */}
                 </View>
                 <View
                   style={{ flexDirection: "column", justifyContent: "center" }}

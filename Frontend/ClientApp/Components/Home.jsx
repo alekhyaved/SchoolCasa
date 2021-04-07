@@ -1,6 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import {
+  Card,
+  ListItem,
+  Icon,
+  Avatar,
+  Image,
   Header
 } from "react-native-elements";
 
@@ -35,7 +40,7 @@ class Home extends React.Component {
             }
           }}
         />
-
+        
         <View>
         {/* <Text style={styles.textLabel}>SchoolCasa</Text> */}
           {/* <Image
