@@ -10,6 +10,7 @@ import {
   Image,
   Header
 } from "react-native-elements";
+import { Foundation } from '@expo/vector-icons';
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -19,7 +20,6 @@ export default function RentalListings({navigation}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
-  const mapView = false;
 
   useEffect(() => {
     const config = {
@@ -41,7 +41,6 @@ export default function RentalListings({navigation}) {
   }, [data]);
 
 
-if(mapView == false)
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -125,14 +124,11 @@ if(mapView == false)
                 }}
               />
               <Text>                            </Text>
-
-              <Entypo
+              <Foundation
                   onPress={() => {
                     navigation.navigate("Map");
                   }}
-                  name="location-pin" size={42} color="blue" />
-
-
+                  name="map" size={42} color="black" />
             </View>
             <Text></Text>
             {data.map(responseData => (

@@ -69,16 +69,16 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: "rgba(9,150,39,0.9)",
+        backgroundColor: "rgba(104,17,150,0.9)",
     },
     ring: {
         width: 24,
         height: 24,
         borderRadius: 12,
-        backgroundColor: "rgba(25,150,19,0.45)",
+        backgroundColor: "rgba(138,5,150,0.45)",
         position: "absolute",
         borderWidth: 1,
-        borderColor: "rgba(15,150,10,0.5)",
+        borderColor: "rgba(119,10,150,0.5)",
     },
     button: {
         alignItems: 'center',
@@ -204,9 +204,10 @@ const Map = ({navigation}) => {
                         longitude: -121.88246624866937,
 
                     }}
-                image = {require('../assets/sjsulogo.png')}
+                image = {require('../assets/sjsu_name.png')}
                     title='San Jose State University'
                     opacity={0.6}
+                    
 
                 />
                 {marker.filter(e => {
