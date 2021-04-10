@@ -1,15 +1,21 @@
 import React, {Component, useEffect, useState} from "react";
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps'
+import MapView, {Circle, PROVIDER_GOOGLE} from 'react-native-maps'
 import {StyleSheet, Dimensions, ScrollView, Image, View, Text, Animated, TouchableOpacity} from 'react-native'
 import axios from "axios";
 
 const {width, height} = Dimensions.get("window");
 import {useTheme} from '@react-navigation/native';
+import MapMarker from "react-native-maps/lib/components/MapMarker";
+import sjsuImage from '../assets/sjsu_name.png'
+
 
 const screen = Dimensions.get("screen");
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
+
+const sjsuUri = Image.resolveAssetSource(sjsuImage).uri;
+
 
 
 const styles = StyleSheet.create({
@@ -50,6 +56,13 @@ const styles = StyleSheet.create({
     textContent: {
         flex: 2,
         padding: 10,
+    },
+    sjsutextContent: {
+        flex: 2,
+        // padding: 10,
+        // backgroundColor: "rgba(11,81,150,0.45)",
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     cardaddress: {
         fontSize: 12,
@@ -93,7 +106,23 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 14,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+    },
+    plainView: {
+        flex: 2,
+        position: 'relative',
+
+    },
+    mybutton: {
+        width: 80,
+        paddingHorizontal: 12,
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        marginVertical: 20,
+        backgroundColor: 'transparent',
     },
 });
 
@@ -118,7 +147,10 @@ const Map = ({navigation}) => {
     useEffect(() => {
         if (marker.length === 0)
             return;
-        console.log("Use Effect called with setLoading = " + marker)
+        if (markerRef && markerRef.current && markerRef.current.showCallout) {
+            markerRef.current.showCallout();
+        }
+        // console.log("Use Effect called with setLoading = " + marker)
         mapAnimation.addListener(({value}) => {
             let index = Math.floor(value / CARD_WIDTH + 0.3);
             if (index >= marker.length) {
@@ -180,9 +212,15 @@ const Map = ({navigation}) => {
         _scrollView.current.scrollTo({x: x, y: 0, animated: true});
     }
 
-
+    const markerRef = React.useRef(null);
     const _map = React.useRef(null);
     const _scrollView = React.useRef(null);
+    const OVERLAY_TOP_LEFT_COORDINATE = [37.35962245770899, -121.8846448487323];
+    const OVERLAY_BOTTOM_RIGHT_COORDINATE = [37.34632204166565, -121.85295561232773];
+    const  overlay =  {
+        bounds: [OVERLAY_TOP_LEFT_COORDINATE, OVERLAY_BOTTOM_RIGHT_COORDINATE],
+        image: sjsuImage,
+    };
 
     return (
         <View>
@@ -197,19 +235,24 @@ const Map = ({navigation}) => {
                     latitudeDelta: 0.148,
                     longitudeDelta: 0.148
                 }}>
-
+                {/*<CustomMarker/>*/}
                 <MapView.Marker
+                    ref={markerRef}
                     coordinate={{
                         latitude: 37.33539213195991,
                         longitude: -121.88246624866937,
-
                     }}
-                image = {require('../assets/sjsu_name.png')}
-                    title='San Jose State University'
-                    opacity={0.6}
-                    
+                    calloutOffset={{ x: -8, y: 28 }}
+                    calloutAnchor={{ x: 0.5, y: 0.4 }}
+                    // title={'SJSU'}
+                >
+                    <MapView.Callout style={styles.plainView} tooltip={false}>
+                        <View >
+                            <Text style={styles.sjsutextContent} >SJSU</Text>
+                        </View>
+                    </MapView.Callout>
+                </MapView.Marker>
 
-                />
                 {marker.filter(e => {
                     return e.longitude !== '' && e.latitude !== ''
                 })
@@ -239,6 +282,16 @@ const Map = ({navigation}) => {
                             </MapView.Marker>
                         );
                     })}
+                {/*<MapView.Circle*/}
+                {/*    center={{ latitude: 37.33539213195991, longitude: -121.88246624866937 }}*/}
+                {/*    radius={1500}*/}
+                {/*    fillColor="rgba(255,0,0,0.3)"*/}
+                {/*    strokeWidth={0.5}*/}
+                {/*/>*/}
+                {/*<MapView.Overlay*/}
+                {/*    bounds={overlay.bounds}*/}
+                {/*    image={overlay.image}*/}
+                {/*/>*/}
             </MapView>
             <Animated.ScrollView
                 ref={_scrollView}
