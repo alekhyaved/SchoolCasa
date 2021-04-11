@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View,Picker,Button, Keyboard, Image,ScrollView } from 'react-native';
+import { StyleSheet, Text, View,Picker, Keyboard, Image,ScrollView } from 'react-native';
+import {Button} from 'react-native-paper';
 import { TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
+import { PanResponder } from 'react-native';
 
 class ItemAddScreen extends Component {
 
@@ -159,10 +161,11 @@ class ItemAddScreen extends Component {
         return (
             <View style={styles.container}>
                  <ScrollView>
-                <Text
+                {/* <Text
                     style={{marginTop: 40, marginLeft: 120, fontFamily: "Roboto", fontSize: 20, fontWeight: "bold"}}>Add
-                    an Item</Text>
+                    an Item</Text> */}
                 {/*  Item Add starts here */}
+                <Text></Text>
                 <TextInput
                     style={{
                         height: 40,
@@ -262,21 +265,22 @@ class ItemAddScreen extends Component {
                     onValueChange={(itemValue, itemIndex) => this.setState({ age: itemValue })}
                 >
                     <Picker.Item label="Age of product" value="productAge"/>
-                    <Picker.Item label="1-5years" value="age1"/>
-                    <Picker.Item label="6-10years" value="age2"/>
-                    <Picker.Item label="11-15years" value="age3"/>
+                    <Picker.Item label="1year" value="age1"/>
+                    <Picker.Item label="2 years" value="age2"/>
+                    <Picker.Item label="3 years" value="age3"/>
+                    <Picker.Item label="4 years" value="age4"/>
+                    <Picker.Item label="5 years" value="age5"/>
                 </Picker>
 
-                <Button title="Pick an image from camera roll"
-                        onPress={this.pickImage}
-                />
-                {/*{image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}*/}
+                <Button icon="camera" mode="contained" color='#c9c7c7'
+                        onPress={this.pickImage} style={{height: 40,
+                            width: 170,
+                            marginTop: 20,
+                            marginLeft: 30}} >Upload image</Button>
 
-                <View style={{height: 50, width: "60%", marginLeft: 80, marginTop: 20}}>
-                    <Button
-                        title="Submit"
-                        onPress={this.submitItemDetails}
-                    />
+                <View style={{height: 50, width: "60%", marginLeft: 80, marginTop: 20, borderRadius: 60}}>
+                    <Button mode="contained" color = '#ffdb58'
+                        onPress={this.submitItemDetails} >Submit</Button>
                 </View>
 
                 {/* Item add ends here */}
