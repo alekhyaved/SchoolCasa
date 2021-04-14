@@ -51,49 +51,26 @@ export default function RentalListings({navigation}) {
             <Text></Text>
             <View style={{ flexDirection: "row" }}>
               <Text></Text>
-              {/* <Button
-                onPress={() => {
-                  navigation.navigate("Home");
-                }}
-                title="Home"
-                // // color="#ffbf58"
-                // backgroundColor="#ffbf58"
+ 
+              <Text></Text>
 
-                buttonStyle={{
-                  backgroundColor: "#ffdb58",
+          <Text></Text>
+              <AntDesign
+                name="plus"
+                size={40}
+                color="black" style={{
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "60%"
+                  width: "30%",
+                  marginLeft: 15,
                 }}
-                titleStyle={{
-                  color: "black",
-                  fontSize: 15,
-                  fontWeight: "bold"
+                onPress={() => {
+                  navigation.navigate("AddApartmentListing");
                 }}
-              /> */}
-              <Text></Text>
-
-          {/* <Button
-            onPress={() => {
-              navigation.navigate("MyList");
-            }}
-            title="My List"
-            buttonStyle={{
-              backgroundColor: "#ffdb58",
-              height: 40,
-              width: "60%",
-              marginLeft: 10,
-            }}
-            titleStyle={{
-              color: "black",
-              fontSize: 15,
-            }}
-          /> */}
-
-          <Text></Text>
-
-              <Button
+              />
+              
+              {/* <Button
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
                 }}
@@ -102,7 +79,7 @@ export default function RentalListings({navigation}) {
                 // backgroundColor="#ffbf58"
 
                 buttonStyle={{
-                  backgroundColor: "#ffdb58",
+                  backgroundColor: "grey",
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
@@ -111,10 +88,11 @@ export default function RentalListings({navigation}) {
                 }}
                 titleStyle={{
                   color: "black",
-                  fontSize: 30,
+                  fontSize: 40,
                   fontWeight: "bold"
                 }}
-              />
+              /> */}
+
               <AntDesign
                 name="search1"
                 size={40}
