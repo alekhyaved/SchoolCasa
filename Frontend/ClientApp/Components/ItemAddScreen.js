@@ -104,7 +104,7 @@ class ItemAddScreen extends Component {
     submitItemDetails = event => {
         console.log("inside submit item top");
 
-        
+
         var newItem = new FormData();
         newItem.append("productName", this.state.productName);
         newItem.append("price", this.state.price);
@@ -138,12 +138,12 @@ class ItemAddScreen extends Component {
             }
         };
         axios
-            // .post("http://192.168.86.180:8080/postItem", newItem, configure)
-            .post("http://192.168.0.9:8080/postItem", newItem, configure)
+             .post("http://192.168.86.180:8080/postItem", newItem, configure)
+           // .post("http://192.168.0.9:8080/postItem", newItem, configure)
             .then(response => {
                 console.log("Item : " + JSON.stringify(response));
                 // alert("Item Added Successfully");
-                this.props.navigation.navigate('ItemList')
+                this.props.navigation.navigate('ItemListings')
                 // this.props.history.push("/admin/vehicleList");
             })
             .catch(error => {
