@@ -25,9 +25,7 @@ export function MyList({ navigation }) {
       ) : (
         <View>
           <ScrollView>
-            <Text></Text>
             <View style={{ flexDirection: "row" }}>
-              <Text></Text>
               <Text></Text>
             </View>
             <Text></Text>
