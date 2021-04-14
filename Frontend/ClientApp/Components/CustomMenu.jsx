@@ -1,28 +1,22 @@
 import * as React from "react";
-import { View } from "react-native";
+import { SafeAreaView, View, StyleSheet, Image,Text } from "react-native";
 import { Button, Menu, Divider, Provider } from "react-native-paper";
-import { StyleSheet } from "react-native";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 
 export class CustomMenu extends React.Component {
   render() {
     return (
-      <View>
-        <Menu.Item
-          onPress={() => {
-            this.props.navigation.navigate("Rental listings");
-          }}
-          title="Rental Listings"
-        />
-        <Menu.Item icon="undo" onPress={() => {}} title="Undo" />
-        <Menu.Item icon="content-cut" onPress={() => {}} title="Cut" disabled />
-        <Menu.Item
-          icon="content-copy"
-          onPress={() => {}}
-          title="Copy"
-          disabled
-        />
-        <Menu.Item icon="content-paste" onPress={() => {}} title="Paste" />
-      </View>
+    <SafeAreaView style={{flex: 1}}>
+      {/*Top Large Image */}
+      <Image style={{ width: 280, height: 152}} source={require("../assets/userIcon.png")}  />
+      <DrawerContentScrollView {...this.props}>
+        <DrawerItemList {...this.props} />
+      </DrawerContentScrollView>
+    </SafeAreaView>
     );
   }
 }
