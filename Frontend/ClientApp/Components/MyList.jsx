@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, ScrollView, FlatList } from "react-native";
+import { View, Text, ScrollView, FlatList, Alert } from "react-native";
 import { Button, Image } from "react-native-elements";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+
 export function MyList({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -17,6 +18,24 @@ export function MyList({ navigation }) {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [data]);
+
+  const onPressDelete = (id) => {
+    const url = "http://192.168.0.9:8080/deleteApartmentListing/" + id;
+    const config = {
+      headers: {
+        "content-type": "text/html",
+      },
+    };
+    axios
+      .delete(url, config)
+      .then((res) => {
+        alert("Selected Listing is deleted");
+        // console.log(res);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+  };
 
   return (
     <View style={{ flex: 1, padding: 0 }}>
@@ -71,7 +90,21 @@ export function MyList({ navigation }) {
                     color="red"
                     justifyContent="flex-end"
                     onPress={() => {
-                      // navigation.navigate("EditApartmentListing", responseData);
+                      Alert.alert(
+                        "Confirmation",
+                        "Do you want to delete apartment listing?",
+                        [
+                          {
+                            text: "Cancel",
+                            // onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => onPressDelete(responseData.id),
+                          },
+                        ]
+                      );
                     }}
                   />
                 </View>
