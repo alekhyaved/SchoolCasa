@@ -10,13 +10,13 @@ export function MyList({ navigation }) {
 
   useEffect(() => {
     axios
-      .get("http://10.233.20.244:8080/getMyApartmentListings/" + email)
+      .get("http://192.168.0.9:8080/getMyApartmentListings/" + email)
       .then((res) => {
         setData(res.data);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [data]);
 
   return (
     <View style={{ flex: 1, padding: 0 }}>
@@ -29,23 +29,6 @@ export function MyList({ navigation }) {
             <View style={{ flexDirection: "row" }}>
               <Text></Text>
               <Text></Text>
-              <Button
-                onPress={() => {
-                  navigation.navigate("Home");
-                }}
-                title="Home"
-                buttonStyle={{
-                  backgroundColor: "#ffdb58",
-                  height: 40,
-                  width: "60%",
-                  marginLeft:10,
-                }}
-                titleStyle={{
-                  color: "black",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                }}
-              />
             </View>
             <Text></Text>
             {data.map((responseData) => (
@@ -69,7 +52,7 @@ export function MyList({ navigation }) {
                   <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
-                                  </View>
+                </View>
                 <View
                   style={{ flexDirection: "column", justifyContent: "center" }}
                 >
@@ -79,7 +62,7 @@ export function MyList({ navigation }) {
                     color="black"
                     justifyContent="flex-end"
                     onPress={() => {
-                      //navigation.navigate("RentalListingDetails", responseData);
+                      navigation.navigate("EditApartmentListing", responseData);
                     }}
                   />
                   <Text></Text>
@@ -90,7 +73,7 @@ export function MyList({ navigation }) {
                     color="red"
                     justifyContent="flex-end"
                     onPress={() => {
-                      //navigation.navigate("RentalListingDetails", responseData);
+                      // navigation.navigate("EditApartmentListing", responseData);
                     }}
                   />
                 </View>
