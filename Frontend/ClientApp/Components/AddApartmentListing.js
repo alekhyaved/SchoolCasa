@@ -10,15 +10,18 @@ import {
   Switch,
   CheckBox,
   Image,
-  TouchableOpacity,
+  TouchableOpacity, SafeAreaViewComponent,
 } from "react-native";
+import config from "../config";
 import { Picker } from "@react-native-picker/picker";
+import { LogBox } from 'react-native'
 import axios from "axios";
 import { Button } from "react-native-elements";
 import Dates from "react-native-dates";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from 'expo-location';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import * as Permissions from 'expo-permissions'
 
 class AddApartmentListing extends Component {
@@ -52,17 +55,19 @@ class AddApartmentListing extends Component {
 
   componentDidMount() {
     // Permissions.askAsync(Permissions.LOCATION);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
   }
 
   handleAddressChange(address) {
-    this.setState({ address });
+    this.setState({ address })
   }
 
   handleEndEditing = async () =>{
     //console.log("end editing:"+ this.state.address);
     let locationAccess = await Permissions.askAsync(Permissions.LOCATION);
     if (locationAccess.granted ==false) {
-      alert("Permission to access location is required to show your post in the map view. Change the settings before adding your post.");
+       alert("Permission to access location is required to show your post in the map view. Change the settings before adding your post.");
       return;
     }
     this.attemptGeocodeAsync();
@@ -151,7 +156,7 @@ class AddApartmentListing extends Component {
     };
     axios
       // .post("http://10.233.20.244:8080" + "/postAptLisiting/", formData, config)
-      .post("http://192.168.0.31:8080" + "/postAptLisiting/", formData, config)
+      .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })
@@ -229,198 +234,207 @@ class AddApartmentListing extends Component {
       //console.log(filename);
     };
     return (
-      <View style={styles.container}>
-        {/* <View>
+
+        <View style={styles.container}>
+          {/* <View>
           <Text style={styles.header}>Add Apartment Listing</Text>
         </View> */}
-        <ScrollView>
+
+          <ScrollView keyboardShouldPersistTaps="handled" >
           <View style={styles.inputContainer}>
-            <Text style={styles.textLabel}>Address</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter address"
-              onBlur={Keyboard.dismiss}
-              multiline={true}
-              numberOfLines={3}
-              value={this.state.address}
-              onChangeText={this.handleAddressChange}
-              onEndEditing = {this.handleEndEditing}
-            />
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.textLabel}>Beds</Text>
-              <Picker
-                selectedValue={this.state.bedrooms}
-                style={{ height: 50, width: 90, fontSize: 100, marginLeft: 40 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ bedrooms: itemValue })
-                }
-              >
-                <Picker.Item label="1" value="1" fontSize="100" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-              </Picker>
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.textLabel}>Baths</Text>
-              <Picker
-                selectedValue={this.state.bathrooms}
-                style={{ height: 50, width: 90, fontSize: 100, marginLeft: 35 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ bathrooms: itemValue })
-                }
-              >
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="1.5" value="1.5" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="2.5" value="2.5" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="3.5" value="3.5" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="4.5" value="4.5" />
-              </Picker>
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <CheckBox
-                style={{ marginLeft: 5, marginTop: 10 }}
-                value={this.state.isParkingAvailable}
-                onValueChange={() =>
-                  this.setState({
-                    isParkingAvailable: !this.state.isParkingAvailable,
-                  })
-                }
-              />
-              <Text style={styles.textLabel}>Parking Available</Text>
-            </View>
-            <Text style={styles.textLabel}>Rent Price</Text>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.textLabel}>$</Text>
-              <TextInput
-                style={styles.textBoxInput}
-                placeholder="Enter rent"
-                maxLength={10}
-                onBlur={Keyboard.dismiss}
-                value={this.state.rent}
-                onChangeText={this.handleRentChange}
-              />
-              <Text style={styles.textLabel}>/month</Text>
-            </View>
-            <Text style={styles.textLabel}>Description</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter description"
-              onBlur={Keyboard.dismiss}
-              multiline={true}
-              numberOfLines={3}
-              value={this.state.description}
-              onChangeText={this.handleDescriptionChange}
-            />
-          </View>
-          <View style={styles.containerNew}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.textLabel}>Available From</Text>
-              {this.state.date && (
-                <Text style={styles.textLabel}>
-                  {this.state.date && this.state.date.format("MM/DD/YYYY")}
-                </Text>
-              )}
-            </View>
-            <Dates
-              date={this.state.date}
-              onDatesChange={onDateChange}
-              isDateBlocked={isDateBlocked}
-            />
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.textLabel}>Upload Apartment Photos</Text>
-            <View style={{ flexDirection: "row" }}>
-              {this.state.localUri1 && (
-                <Image
-                  source={{ uri: this.state.localUri1 }}
-                  style={{
-                    width: "30%",
-                    height: 100,
-                    marginRight: "1%",
-                    marginLeft: "3%",
+              <Text style={styles.textLabel}>Address</Text>
+              <GooglePlacesAutocomplete
+                  placeholder='Enter address'
+                  onPress={(data, details = null) => {
+                    // 'details' is provided when fetchDetails = true
+                    console.log(data.description);
+                    this.handleAddressChange(data.description);
+                    this.handleEndEditing().then(r => console.log("handled geocoding"))
                   }}
-                />
-              )}
-              {this.state.localUri2 && (
-                <Image
-                  source={{ uri: this.state.localUri2 }}
-                  style={{ width: "30%", height: 100, marginRight: "1%" }}
-                />
-              )}
-              {this.state.localUri3 && (
-                <Image
-                  source={{ uri: this.state.localUri3 }}
-                  style={{ width: "30%", height: 100 }}
-                />
-              )}
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => openImagePickerAsync("1")}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Upload image1</Text>
-              </TouchableOpacity>
-              {this.state.filename1 && (
-                <Text numberOfLines={1} style={styles.fileNameStyle}>
-                  {this.state.filename1}
-                </Text>
-              )}
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => openImagePickerAsync("2")}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Upload image2</Text>
-              </TouchableOpacity>
-              {this.state.filename2 && (
-                <Text numberOfLines={1} style={styles.fileNameStyle}>
-                  {this.state.filename2}
-                </Text>
-              )}
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => openImagePickerAsync("3")}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Upload image3</Text>
-              </TouchableOpacity>
-              {this.state.filename3 && (
-                <Text numberOfLines={1} style={styles.fileNameStyle}>
-                  {this.state.filename3}
-                </Text>
-              )}
-            </View>
+                  query={{
+                    key: config.google.API_KEY,
+                    language: 'en',
+                  }}
+
+              />
           </View>
-          <View>
-            <Button
-              color="#ffdb58"
-              titleStyle={{
-                color: "black",
-                fontSize: 20,
-              }}
-              buttonStyle={{
-                backgroundColor: "#ffdb58",
-                borderRadius: 60,
-                flex: 1,
-                height: 50,
-                width: "50%",
-                marginLeft: "25%",
-                marginTop: 20,
-              }}
-              onPress={this.onPress}
-              title="Submit"
-            />
-          </View>
-        </ScrollView>
-      </View>
-    );
+            <View style={styles.inputContainer}>
+            <View style={{ flexDirection: "row" }}>
+                <Text style={styles.textLabel}>Beds</Text>
+                <Picker
+                    selectedValue={this.state.bedrooms}
+                    style={{ height: 50, width: 90, fontSize: 100, marginLeft: 40 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ bedrooms: itemValue })
+                    }
+                >
+                  <Picker.Item label="1" value="1" fontSize="100" />
+                  <Picker.Item label="2" value="2" />
+                  <Picker.Item label="3" value="3" />
+                  <Picker.Item label="4" value="4" />
+                </Picker>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.textLabel}>Baths</Text>
+                <Picker
+                    selectedValue={this.state.bathrooms}
+                    style={{ height: 50, width: 90, fontSize: 100, marginLeft: 35 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ bathrooms: itemValue })
+                    }
+                >
+                  <Picker.Item label="1" value="1" />
+                  <Picker.Item label="1.5" value="1.5" />
+                  <Picker.Item label="2" value="2" />
+                  <Picker.Item label="2.5" value="2.5" />
+                  <Picker.Item label="3" value="3" />
+                  <Picker.Item label="3.5" value="3.5" />
+                  <Picker.Item label="4" value="4" />
+                  <Picker.Item label="4.5" value="4.5" />
+                </Picker>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <CheckBox
+                    style={{ marginLeft: 5, marginTop: 10 }}
+                    value={this.state.isParkingAvailable}
+                    onValueChange={() =>
+                        this.setState({
+                          isParkingAvailable: !this.state.isParkingAvailable,
+                        })
+                    }
+                />
+                <Text style={styles.textLabel}>Parking Available</Text>
+              </View>
+              <Text style={styles.textLabel}>Rent Price</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.textLabel}>$</Text>
+                <TextInput
+                    style={styles.textBoxInput}
+                    placeholder="Enter rent"
+                    maxLength={10}
+                    onBlur={Keyboard.dismiss}
+                    value={this.state.rent}
+                    onChangeText={this.handleRentChange}
+                />
+                <Text style={styles.textLabel}>/month</Text>
+              </View>
+              <Text style={styles.textLabel}>Description</Text>
+              <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter description"
+                  onBlur={Keyboard.dismiss}
+                  multiline={true}
+                  numberOfLines={3}
+                  value={this.state.description}
+                  onChangeText={this.handleDescriptionChange}
+              />
+            </View>
+          <View style={styles.containerNew}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.textLabel}>Available From</Text>
+                {this.state.date && (
+                    <Text style={styles.textLabel}>
+                      {this.state.date && this.state.date.format("MM/DD/YYYY")}
+                    </Text>
+                )}
+              </View>
+              <Dates
+                  date={this.state.date}
+                  onDatesChange={onDateChange}
+                  isDateBlocked={isDateBlocked}
+              />
+            </View>
+            <View style={styles.container}>
+              <Text style={styles.textLabel}>Upload Apartment Photos</Text>
+              <View style={{ flexDirection: "row" }}>
+                {this.state.localUri1 && (
+                    <Image
+                        source={{ uri: this.state.localUri1 }}
+                        style={{
+                          width: "30%",
+                          height: 100,
+                          marginRight: "1%",
+                          marginLeft: "3%",
+                        }}
+                    />
+                )}
+                {this.state.localUri2 && (
+                    <Image
+                        source={{ uri: this.state.localUri2 }}
+                        style={{ width: "30%", height: 100, marginRight: "1%" }}
+                    />
+                )}
+                {this.state.localUri3 && (
+                    <Image
+                        source={{ uri: this.state.localUri3 }}
+                        style={{ width: "30%", height: 100 }}
+                    />
+                )}
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                    onPress={() => openImagePickerAsync("1")}
+                    style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Upload image1</Text>
+                </TouchableOpacity>
+                {this.state.filename1 && (
+                    <Text numberOfLines={1} style={styles.fileNameStyle}>
+                      {this.state.filename1}
+                    </Text>
+                )}
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                    onPress={() => openImagePickerAsync("2")}
+                    style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Upload image2</Text>
+                </TouchableOpacity>
+                {this.state.filename2 && (
+                    <Text numberOfLines={1} style={styles.fileNameStyle}>
+                      {this.state.filename2}
+                    </Text>
+                )}
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                    onPress={() => openImagePickerAsync("3")}
+                    style={styles.button}
+                >
+                  <Text style={styles.buttonText}>Upload image3</Text>
+                </TouchableOpacity>
+                {this.state.filename3 && (
+                    <Text numberOfLines={1} style={styles.fileNameStyle}>
+                      {this.state.filename3}
+                    </Text>
+                )}
+              </View>
+            </View>
+            <View>
+              <Button
+                  color="#ffdb58"
+                  titleStyle={{
+                    color: "black",
+                    fontSize: 20,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#ffdb58",
+                    borderRadius: 60,
+                    flex: 1,
+                    height: 50,
+                    width: "50%",
+                    marginLeft: "25%",
+                    marginTop: 20,
+                  }}
+                  onPress={this.onPress}
+                  title="Submit"
+              />
+            </View>
+          </ScrollView>
+        </View>
+
+  );
   }
 }
 

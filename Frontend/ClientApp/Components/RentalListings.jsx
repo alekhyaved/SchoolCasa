@@ -10,8 +10,10 @@ import {
   Image,
   Header
 } from "react-native-elements";
+import { Foundation } from '@expo/vector-icons';
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import {MyList} from "./MyList";
 export default function RentalListings({navigation}) {
   // {navigation}
@@ -29,14 +31,15 @@ export default function RentalListings({navigation}) {
 
     axios
       // .get("http://192.168.1.9:8080/showApartmentListing")
-      .get("http://192.168.0.31:8080/showApartmentListing")
+      .get("http://192.168.86.180:8080/showApartmentListing")
       .then(function(response) {
         setData(response.data);
         // return response;
       })
       .catch(function(error) {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [data]);
+
 
   return (
     <View style={{ flex: 1, padding: 0 }}>
@@ -98,6 +101,12 @@ export default function RentalListings({navigation}) {
                   navigation.navigate("SearchAndFilter");
                 }}
               />
+              <Text>                            </Text>
+              <Foundation
+                  onPress={() => {
+                    navigation.navigate("Map");
+                  }}
+                  name="map" size={42} color="black" />
             </View>
             <Text></Text>
             {data.map(responseData => (
