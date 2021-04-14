@@ -62,8 +62,21 @@ export default class ItemList extends Component {
                             fontWeight: "bold"
                         }}
                     />
-
-                    <Button
+                    <AntDesign
+                name="plus"
+                size={40}
+                color="black" style={{
+                  // borderRadius: 60,
+                  // flex: 1,
+                  height: 40,
+                  width: "30%",
+                  marginLeft: 15,
+                }}
+                onPress={() => {
+                    this.props.navigation.navigate("ItemAddScreen");
+                }}
+                    />
+                    {/* <Button
                         onPress={() => {
                             this.props.navigation.navigate("ItemAddScreen");
                         }}
@@ -84,7 +97,7 @@ export default class ItemList extends Component {
                             fontSize: 30,
                             fontWeight: "bold"
                         }}
-                    />
+                    /> */}
                 </View>
                 <SearchBar
                     inputStyle={{backgroundColor: 'white'}}
