@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
-import {
-  Card,
-  ListItem,
-  Icon,
-  Avatar,
-  Image,
-  Header,
-} from "react-native-elements";
 import { Auth } from "aws-amplify";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -65,7 +57,7 @@ function rentalListingsStack({ navigation }) {
           headerStyle: {
             backgroundColor: "#ffdb58", //Set Header color
           },
-          headerTintColor: "#fff", //Set Header text color
+          headerTintColor: "#000000", //Set Header text color
           headerTitleStyle: {
             fontWeight: "bold", //Set Header text style
           },
@@ -113,12 +105,25 @@ function rentalListingsStack({ navigation }) {
           },
         }}
       />
-
-      {/* <Stack.Screen
-          name="Home"
-          component={Home}
+      <Stack.Screen
+            name="MyList"
+            component={MyList}
+            options={{
+              title: "My Listings",
+              headerStyle: {
+                backgroundColor: "#ffdb58"
+              },
+              headerTintColor: "#000000",
+              headerTitleStyle: {
+                fontWeight: "bold"
+              }
+            }}
+      />
+      <Stack.Screen
+          name="SearchAndFilter"
+          component={SearchAndFilter}
           options={{
-            title: "School Casa",
+            title: "Search-Filter",
             headerStyle: {
               backgroundColor: "#ffdb58"
             },
@@ -127,36 +132,8 @@ function rentalListingsStack({ navigation }) {
               fontWeight: "bold"
             }
           }}
-        /> */}
-      <Stack.Screen
-        name="MyList"
-        component={MyList}
-        options={{
-          title: "My Listings",
-          headerStyle: {
-            backgroundColor: "#ffdb58",
-          },
-          headerTintColor: "#000000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
       />
-      <Stack.Screen
-        name="SearchAndFilter"
-        component={SearchAndFilter}
-        options={{
-          title: "Search-Filter",
-          headerStyle: {
-            backgroundColor: "#ffdb58",
-          },
-          headerTintColor: "#000000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      />
-    </Stack.Navigator>
+      </Stack.Navigator>
   );
 }
 
@@ -184,6 +161,7 @@ function profileStack({ navigation }) {
       </Stack.Navigator>
   );
 }
+
 function myRentalListingsStack({ navigation }) {
   return (
     <Stack.Navigator initialRouteName="MyList">
@@ -191,19 +169,6 @@ function myRentalListingsStack({ navigation }) {
         name="MyList"
         component={MyList}
         options={{
-          title: 'School Casa', //Set Header Title
-            headerLeft: ()=>
-              <NavigationDrawerStructure
-                navigationProps={navigation}
-              />,
-            headerStyle: {
-              backgroundColor: '#ffdb58', //Set Header color
-            },
-            headerTintColor: '#000000', //Set Header text color
-            headerTitleStyle: {
-              fontWeight: 'bold', //Set Header text style
-            },
-        }}/>
           title: "My Rental Listings", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
@@ -211,7 +176,7 @@ function myRentalListingsStack({ navigation }) {
           headerStyle: {
             backgroundColor: "#ffdb58", //Set Header color
           },
-          headerTintColor: "#fff", //Set Header text color
+          headerTintColor: "#000000", //Set Header text color
           headerTitleStyle: {
             fontWeight: "bold", //Set Header text style
           },
@@ -242,19 +207,6 @@ function itemListingsStack({ navigation }) {
         name="ItemListings"
         component={ItemList}
         options={{
-          title: 'School Casa', //Set Header Title
-            headerLeft: ()=>
-              <NavigationDrawerStructure
-                navigationProps={navigation}
-              />,
-            headerStyle: {
-              backgroundColor: '#ffdb58', //Set Header color
-            },
-            headerTintColor: '#000000', //Set Header text color
-            headerTitleStyle: {
-              fontWeight: 'bold', //Set Header text style
-            },
-        }}/>
           title: "School Casa", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
@@ -262,7 +214,7 @@ function itemListingsStack({ navigation }) {
           headerStyle: {
             backgroundColor: "#ffdb58", //Set Header color
           },
-          headerTintColor: "#fff", //Set Header text color
+          headerTintColor: "#000000", //Set Header text color
           headerTitleStyle: {
             fontWeight: "bold", //Set Header text style
           },
