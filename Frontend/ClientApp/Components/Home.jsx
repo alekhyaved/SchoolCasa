@@ -20,8 +20,11 @@ import AddApartmentListing from "./AddApartmentListing";
 import ItemAddScreen from "./ItemAddScreen";
 import Map from "./Map";
 import { SearchAndFilter } from "./SearchAndFilter";
+import { CustomMenu } from "./CustomMenu";
+import { Profile } from "./Profile";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -157,6 +160,30 @@ function rentalListingsStack({ navigation }) {
   );
 }
 
+function profileStack({ navigation }) {
+  return (
+      <Stack.Navigator initialRouteName="Profile">
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            title: 'School Casa', //Set Header Title
+            headerLeft: ()=>
+              <NavigationDrawerStructure
+                navigationProps={navigation}
+              />,
+            headerStyle: {
+              backgroundColor: '#ffdb58', //Set Header color
+            },
+            headerTintColor: '#000000', //Set Header text color
+            headerTitleStyle: {
+              fontWeight: 'bold', //Set Header text style
+            },
+          }}
+        />
+      </Stack.Navigator>
+  );
+}
 function myRentalListingsStack({ navigation }) {
   return (
     <Stack.Navigator initialRouteName="MyList">
@@ -164,6 +191,19 @@ function myRentalListingsStack({ navigation }) {
         name="MyList"
         component={MyList}
         options={{
+          title: 'School Casa', //Set Header Title
+            headerLeft: ()=>
+              <NavigationDrawerStructure
+                navigationProps={navigation}
+              />,
+            headerStyle: {
+              backgroundColor: '#ffdb58', //Set Header color
+            },
+            headerTintColor: '#000000', //Set Header text color
+            headerTitleStyle: {
+              fontWeight: 'bold', //Set Header text style
+            },
+        }}/>
           title: "My Rental Listings", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
@@ -202,6 +242,19 @@ function itemListingsStack({ navigation }) {
         name="ItemListings"
         component={ItemList}
         options={{
+          title: 'School Casa', //Set Header Title
+            headerLeft: ()=>
+              <NavigationDrawerStructure
+                navigationProps={navigation}
+              />,
+            headerStyle: {
+              backgroundColor: '#ffdb58', //Set Header color
+            },
+            headerTintColor: '#000000', //Set Header text color
+            headerTitleStyle: {
+              fontWeight: 'bold', //Set Header text style
+            },
+        }}/>
           title: "School Casa", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
@@ -273,36 +326,38 @@ class Home extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Drawer.Navigator
-          drawerContentOptions={{
-            activeTintColor: "#000000",
-            activeBackgroundColor: "#ffdb58",
-            // '#e91e63',
-            itemStyle: { marginVertical: 5 },
-          }}
+      <Drawer.Navigator
+        drawerContentOptions={{
+          activeTintColor: '#000000',
+          activeBackgroundColor:"#ffdb58",
+          // '#e91e63',
+          itemStyle: { marginVertical: 5 },
+        }}
+        drawerContent = {(props) => <CustomMenu {...props} />}
         >
-          <Drawer.Screen
-            name="Rental Listings"
-            options={{ drawerLabel: "Rental Listings" }}
-            component={rentalListingsStack}
-          />
-          <Drawer.Screen
-            name="My rental list"
-            options={{ drawerLabel: "My Rental Listings" }}
-            component={myRentalListingsStack}
-          />
-          <Drawer.Screen
-            name="Item Listings"
-            options={{ drawerLabel: "Item Listings" }}
-            component={itemListingsStack}
-          />
-          <Drawer.Screen
-            name="Sign Out"
-            options={{ drawerLabel: "Sign Out" }}
-            component={signOutStack}
-          />
-        </Drawer.Navigator>
-      </NavigationContainer>
+        <Drawer.Screen
+          name="Rental Listings"
+          options={{ drawerLabel: 'Rental Listings' }}
+          component={rentalListingsStack} />
+        <Drawer.Screen
+          name="My rental list"
+          options={{ drawerLabel: 'My rental list' }}
+          component={myRentalListingsStack} />
+        <Drawer.Screen
+          name="Item Listings"
+          options={{ drawerLabel: 'Item Listings' }}
+          component={itemListingsStack} />
+        <Drawer.Screen
+          name="Profile"
+          options={{ drawerLabel: 'Profile' }}
+          component={profileStack} />
+        <Drawer.Screen
+          name="Sign Out"
+          options={{ drawerLabel: 'Sign Out' }}
+          component={signOutStack} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+
     );
   }
 }
