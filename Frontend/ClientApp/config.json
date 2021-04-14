@@ -3,5 +3,9 @@
     "REGION": "us-east-1",
     "USER_POOL_ID": "us-east-1_GHI0VxZyv",
     "APP_CLIENT_ID": "7nih768ej8s4r7644boufr9uq"
+  },
+
+  "google": {
+    "API_KEY": ""
   }
 }

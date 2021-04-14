@@ -10,6 +10,7 @@ import {
   Image,
   Header
 } from "react-native-elements";
+import { Foundation } from '@expo/vector-icons';
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -19,7 +20,6 @@ export default function RentalListings({navigation}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
-  const mapView = false;
 
   useEffect(() => {
     const config = {
@@ -41,7 +41,6 @@ export default function RentalListings({navigation}) {
   }, [data]);
 
 
-if(mapView == false)
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -52,49 +51,26 @@ if(mapView == false)
             <Text></Text>
             <View style={{ flexDirection: "row" }}>
               <Text></Text>
-              {/* <Button
-                onPress={() => {
-                  navigation.navigate("Home");
-                }}
-                title="Home"
-                // // color="#ffbf58"
-                // backgroundColor="#ffbf58"
+ 
+              <Text></Text>
 
-                buttonStyle={{
-                  backgroundColor: "#ffdb58",
+          <Text></Text>
+              <AntDesign
+                name="plus"
+                size={40}
+                color="black" style={{
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "60%"
+                  width: "30%",
+                  marginLeft: 15,
                 }}
-                titleStyle={{
-                  color: "black",
-                  fontSize: 15,
-                  fontWeight: "bold"
+                onPress={() => {
+                  navigation.navigate("AddApartmentListing");
                 }}
-              /> */}
-              <Text></Text>
-
-          {/* <Button
-            onPress={() => {
-              navigation.navigate("MyList");
-            }}
-            title="My List"
-            buttonStyle={{
-              backgroundColor: "#ffdb58",
-              height: 40,
-              width: "60%",
-              marginLeft: 10,
-            }}
-            titleStyle={{
-              color: "black",
-              fontSize: 15,
-            }}
-          /> */}
-
-          <Text></Text>
-
-              <Button
+              />
+              
+              {/* <Button
                 onPress={() => {
                   navigation.navigate("AddApartmentListing");
                 }}
@@ -103,7 +79,7 @@ if(mapView == false)
                 // backgroundColor="#ffbf58"
 
                 buttonStyle={{
-                  backgroundColor: "#ffdb58",
+                  backgroundColor: "grey",
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
@@ -112,10 +88,11 @@ if(mapView == false)
                 }}
                 titleStyle={{
                   color: "black",
-                  fontSize: 30,
+                  fontSize: 40,
                   fontWeight: "bold"
                 }}
-              />
+              /> */}
+
               <AntDesign
                 name="search1"
                 size={40}
@@ -125,14 +102,11 @@ if(mapView == false)
                 }}
               />
               <Text>                            </Text>
-
-              <Entypo
+              <Foundation
                   onPress={() => {
                     navigation.navigate("Map");
                   }}
-                  name="location-pin" size={42} color="blue" />
-
-
+                  name="map" size={42} color="black" />
             </View>
             <Text></Text>
             {data.map(responseData => (
