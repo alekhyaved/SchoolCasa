@@ -10,7 +10,7 @@ import {
 export class CustomMenu extends React.Component {
   render() {
     return (
-    <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1}}>
       {/*Top Large Image */}
       <Image style={{ width: 280, height: 152}} source={require("../assets/userIcon.png")}  />
       <DrawerContentScrollView {...this.props}>
