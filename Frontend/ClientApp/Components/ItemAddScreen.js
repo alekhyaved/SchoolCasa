@@ -143,14 +143,14 @@ class ItemAddScreen extends Component {
             .then(response => {
                 console.log("Item : " + JSON.stringify(response));
                 // alert("Item Added Successfully");
-                this.props.navigation.navigate('ItemListings')
+                this.props.navigation.push('ItemListings')
                 // this.props.history.push("/admin/vehicleList");
             })
             .catch(error => {
                 console.log(error);
                 alert("Server Error");
             });
-
+ 
 
         event.preventDefault();
     };
