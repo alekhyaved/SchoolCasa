@@ -10,12 +10,12 @@ import {
   Image,
   Header
 } from "react-native-elements";
-import { Foundation } from '@expo/vector-icons';
+import { Foundation } from "@expo/vector-icons";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import {MyList} from "./MyList";
-export default function RentalListings({navigation}) {
+import { MyList } from "./MyList";
+export default function RentalListings({ navigation, route }) {
   // {navigation}
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -25,22 +25,66 @@ export default function RentalListings({navigation}) {
     const config = {
       headers: {
         "content-type": "application/json",
-        Accept: "application/json",
-      },
+        Accept: "application/json"
+      }
     };
 
     axios
-      // .get("http://192.168.1.9:8080/showApartmentListing")
-      .get("http://192.168.86.180:8080/showApartmentListing")
+      .get("http://192.168.1.9:8080/showApartmentListing")
+      //.get("http://192.168.0.31:8080/showApartmentListing")
       .then(function(response) {
-        setData(response.data);
+        let data = response.data;
+
+        if (route.params && route.params.address) {
+          if (route.params.address.length > 0) {
+            data = data.filter(responseData => {
+              return (
+                responseData.address
+                  .toLowerCase()
+                  .indexOf(route.params.address.toLowerCase()) != -1
+              );
+            });
+          }
+        }
+
+        if (route.params && route.params.bathrooms) {
+          //alert(JSON.stringify(route.params.bathrooms));
+          if (route.params.bathrooms > 0) {
+            data = data.filter(apartment => {
+              return apartment.bathrooms == route.params.bathrooms;
+            });
+          }
+        }
+
+        if (route.params && route.params.bedrooms) {
+          if (route.params.bedrooms > 0) {
+            data = data.filter(apartment => {
+              return apartment.bedrooms == route.params.bedrooms;
+            });
+          }
+        }
+
+        if (route.params && route.params.fromPrice && route.params.toPrice) {
+          if (
+            !isNaN(route.params.fromPrice) &&
+            !isNaN(route.params.toPrice) &&
+            route.params.toPrice > 0
+          ) {
+            data = data.filter(apartment => {
+              return apartment.rent >= route.params.fromPrice;
+            });
+            data = data.filter(apartment => {
+              return apartment.rent <= route.params.toPrice;
+            });
+          }
+        }
+
+        setData(data);
         // return response;
       })
       .catch(function(error) {})
       .finally(() => setLoading(false));
   }, [data]);
-
-
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -49,64 +93,73 @@ export default function RentalListings({navigation}) {
         <View>
           <ScrollView>
             <Text></Text>
-            <View style={{ flexDirection: "row" }}>
-              <Text></Text>
- 
-              <Text></Text>
-
-          <Text></Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                flex: 1
+              }}
+            >
               <AntDesign
                 name="plus"
                 size={40}
-                color="black" style={{
-                  // borderRadius: 60,
-                  // flex: 1,
-                  height: 40,
-                  width: "30%",
-                  marginLeft: 15,
-                }}
-                onPress={() => {
-                  navigation.navigate("AddApartmentListing");
-                }}
-              />
-              
-              {/* <Button
-                onPress={() => {
-                  navigation.navigate("AddApartmentListing");
-                }}
-                title="+"
-                // // color="#ffbf58"
-                // backgroundColor="#ffbf58"
-
-                buttonStyle={{
-                  backgroundColor: "grey",
-                  // borderRadius: 60,
-                  // flex: 1,
-                  height: 40,
-                  width: "60%",
-                  marginLeft: 15,
-                }}
-                titleStyle={{
-                  color: "black",
-                  fontSize: 40,
-                  fontWeight: "bold"
-                }}
-              /> */}
-
-              <AntDesign
-                name="search1"
-                size={40}
                 color="black"
+                style={{
+                  // borderRadius: 60,
+                  // flex: 1,
+                  height: 40,
+                  width: "25%",
+                  marginLeft: 15
+                }}
                 onPress={() => {
-                  navigation.navigate("SearchAndFilter");
+                  navigation.navigate("AddApartmentListing");
                 }}
               />
-              <Text>                            </Text>
-              <Foundation
+              <Text>{"            "}</Text>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center"
+                }}
+              >
+                <AntDesign
+                  name="search1"
+                  size={35}
+                  color="black"
+                  onPress={() => {
+                    delete route.params;
+                    navigation.navigate("SearchAndFilter");
+                  }}
+                />
+                <Button
+                  onPress={() => {
+                    navigation.navigate("MyList");
+                  }}
+                  title="Clear filters"
+                  buttonStyle={{
+                    backgroundColor: "#ffdb58",
+                    height: 40,
+                    width: "70%",
+                    marginLeft: 10
+                  }}
+                  titleStyle={{
+                    color: "black",
+                    fontSize: 15
+                  }}
+                  onPress={() => {
+                    delete route.params;
+                  }}
+                />
+                <Foundation
                   onPress={() => {
                     navigation.navigate("Map");
                   }}
-                  name="map" size={42} color="black" />
+                  name="map"
+                  size={38}
+                  color="black"
+                />
+              </View>
             </View>
             <Text></Text>
             {data.map(responseData => (
