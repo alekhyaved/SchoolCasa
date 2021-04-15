@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View,Picker, Keyboard, Image,ScrollView } from 'react-native';
+import {StyleSheet, Text, View, Picker, Keyboard, Image, ScrollView, LogBox} from 'react-native';
 import {Button} from 'react-native-paper';
 import { TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 import { PanResponder } from 'react-native';
+import config from "../config";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 
 class ItemAddScreen extends Component {
 
@@ -32,6 +34,12 @@ class ItemAddScreen extends Component {
         this.handleWarrantyChange = this.handleWarrantyChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.submitItemDetails = this.submitItemDetails.bind(this);
+    }
+
+    componentDidMount() {
+        // Permissions.askAsync(Permissions.LOCATION);
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
     }
 
     handleProductNameChange = event => {
@@ -150,7 +158,7 @@ class ItemAddScreen extends Component {
                 console.log(error);
                 alert("Server Error");
             });
- 
+
 
         event.preventDefault();
     };
@@ -160,7 +168,7 @@ class ItemAddScreen extends Component {
     {
         return (
             <View style={styles.container}>
-                 <ScrollView>
+                 <ScrollView keyboardShouldPersistTaps="handled">
                 {/* <Text
                     style={{marginTop: 40, marginLeft: 120, fontFamily: "Roboto", fontSize: 20, fontWeight: "bold"}}>Add
                     an Item</Text> */}
@@ -199,23 +207,53 @@ class ItemAddScreen extends Component {
                 />
 
                 {/* <br /> */}
-                <TextInput
-                    multiline
-                    numberOfLines={3}
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        width: 300,
-                        marginTop: 20,
-                        marginLeft: 30
-                    }}
-                    placeholder="  Address"
-                    maxLength={100}
-                    onBlur={Keyboard.dismiss}
-                    onChangeText={this.handleAddressChange}
-                    value={this.state.address}
-                />
+                {/*<TextInput*/}
+                {/*    multiline*/}
+                {/*    numberOfLines={3}*/}
+                {/*    style={{*/}
+                {/*        height: 40,*/}
+                {/*        borderColor: 'gray',*/}
+                {/*        borderWidth: 1,*/}
+                {/*        width: 300,*/}
+                {/*        marginTop: 20,*/}
+                {/*        marginLeft: 30*/}
+                {/*    }}*/}
+                {/*    placeholder="  Address"*/}
+                {/*    maxLength={100}*/}
+                {/*    onBlur={Keyboard.dismiss}*/}
+                {/*    onChangeText={this.handleAddressChange}*/}
+                {/*    value={this.state.address}*/}
+                {/*/>*/}
+
+                     <GooglePlacesAutocomplete
+                         placeholder='Enter address'
+                         onPress={(data, details = null) => {
+                             this.handleAddressChange(data.description);
+                         }}
+                         query={{
+                             key: config.google.API_KEY,
+                             language: 'en',
+                         }}
+                         styles={{
+                             textInputContainer: {
+                                 backgroundColor: 'grey',
+                                 height: 40,
+                                 borderColor: 'gray',
+                                 borderWidth: 1,
+                                 width: 300,
+                                 marginTop: 20,
+                                 marginLeft: 30,
+                                 flexDirection: 'row',
+                             },
+                             textInput: {
+                                 height: 38,
+                                 color: '#5d5d5d',
+                                 fontSize: 16,
+                             }
+                         }}
+
+
+                     />
 
                 {/* <br /> */}
                 <TextInput
