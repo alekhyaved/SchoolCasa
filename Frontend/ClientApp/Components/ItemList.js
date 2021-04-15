@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
-import {AppRegistry, FlatList, StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Dimensions,Modal} from 'react-native';
+import {
+    AppRegistry,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    Dimensions,
+    Modal,
+    Linking
+} from 'react-native';
 import {Button, Header} from "react-native-elements";
 import axios from "axios";
 import { SearchBar } from 'react-native-elements';
@@ -22,8 +34,8 @@ export default class ItemList extends Component {
     };
 
     componentDidMount() {
-        // axios.get("http://192.168.86.180:8080/itemListing").then(response => {
-        axios.get("http://192.168.0.31:8080/itemListing").then(response => {    
+        axios.get("http://192.168.86.180:8080/itemListing").then(response => {
+      //  axios.get("http://192.168.0.31:8080/itemListing").then(response => {
             this.setState({ items: response.data });
         });
     }
@@ -177,6 +189,22 @@ export default class ItemList extends Component {
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Warranty : {responseData.warranty.substring(8)}</Text>
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Category : {responseData.category}</Text>
                                         <Text style={{ fontSize: 18, fontWeight: "bold" }}>Age : {responseData.age.substring(3) + " years"}</Text>
+                                        <Text></Text>
+                                        <Button
+                                            onPress={() => {
+                                                Linking.openURL(
+                                                    "https://www.google.com/maps/dir/?api=1&destination=" +
+                                                    responseData.address
+                                                );
+                                            }}
+                                            title="Get Directions"
+                                            titleStyle={{
+                                                color: "black"
+                                            }}
+                                            buttonStyle={{
+                                                backgroundColor: "#ffdb58"
+                                            }}
+                                        />
                                         <AntDesign onPress={()=> {this.setState(({modalId:null}))}} name="close" size={30} color="black" style = {styles.closeButton}/>
 
                                     </View>
