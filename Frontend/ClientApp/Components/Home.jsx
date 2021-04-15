@@ -16,6 +16,7 @@ import { CustomMenu } from "./CustomMenu";
 import { Profile } from "./Profile";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
+import MyItemList from "./MyItemList";
 
 
 const Stack = createStackNavigator();
@@ -253,6 +254,30 @@ function itemListingsStack({ navigation }) {
   );
 }
 
+function myItemListingsStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="MyItemList">
+      <Stack.Screen
+        name="MyItemList"
+        component={MyItemList}
+        options={{
+          title: "My Item Listings", 
+          headerLeft: () => (
+            <NavigationDrawerStructure navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: "#ffdb58", 
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold", 
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function signOutStack({ navigation }) {
   return (
     <Stack.Navigator initialRouteName="SignOut">
@@ -293,12 +318,16 @@ class Home extends React.Component {
           component={rentalListingsStack} />
         <Drawer.Screen
           name="My rental list"
-          options={{ drawerLabel: 'My rental list' }}
+          options={{ drawerLabel: 'My Rental Listings' }}
           component={myRentalListingsStack} />
         <Drawer.Screen
           name="Item Listings"
           options={{ drawerLabel: 'Item Listings' }}
           component={itemListingsStack} />
+        <Drawer.Screen
+            name="My Item Listings"
+            options={{ drawerLabel: "My Item Listings" }}
+            component={myItemListingsStack} />
         <Drawer.Screen
           name="Profile"
           options={{ drawerLabel: 'Profile' }}
