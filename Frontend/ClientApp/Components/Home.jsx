@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Button } from 'react-native-elements';
 import { Auth } from "aws-amplify";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { MaterialIcons } from "@expo/vector-icons";
+import {Foundation, MaterialIcons} from "@expo/vector-icons";
 import RentalListings from "./RentalListings";
 import RentalListingDetails from "./RentalListingDetails";
 import ItemList from "./ItemList";
@@ -96,7 +97,31 @@ function rentalListingsStack({ navigation }) {
         name="Map"
         component={Map}
         options={{
-          title: "Map",
+          title: "School Casa",
+            headerLeft: () => (
+                <NavigationDrawerStructure navigationProps={navigation} />
+            ),
+            headerRight: () => (
+                <Button
+                    onPress={() => {
+                        navigation.navigate("RentalListings");
+                    }}
+                    title={'List'}
+                    buttonStyle={{
+                        backgroundColor: "#ffdb58",
+                        height: 50,
+                        width: "100%",
+                        marginLeft: 10,
+                        marginRight: 10
+
+                    }}
+                    titleStyle={{
+                        color: "black",
+                        fontSize: 20,
+                        fontWeight:"bold"
+                    }}
+                />
+            ),
           headerStyle: {
             backgroundColor: "#ffdb58",
           },
@@ -261,16 +286,16 @@ function myItemListingsStack({ navigation }) {
         name="MyItemList"
         component={MyItemList}
         options={{
-          title: "My Item Listings", 
+          title: "My Item Listings",
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: "#ffdb58", 
+            backgroundColor: "#ffdb58",
           },
           headerTintColor: "#fff",
           headerTitleStyle: {
-            fontWeight: "bold", 
+            fontWeight: "bold",
           },
         }}
       />

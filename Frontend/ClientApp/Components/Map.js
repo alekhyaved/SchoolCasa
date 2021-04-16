@@ -7,6 +7,8 @@ const {width, height} = Dimensions.get("window");
 import {useTheme} from '@react-navigation/native';
 import MapMarker from "react-native-maps/lib/components/MapMarker";
 import sjsuImage from '../assets/sjsu_name.png'
+import {AntDesign, Foundation} from "@expo/vector-icons";
+import {Button} from "react-native-elements";
 
 
 const screen = Dimensions.get("screen");
@@ -15,8 +17,6 @@ const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const sjsuUri = Image.resolveAssetSource(sjsuImage).uri;
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const Map = ({navigation}) => {
+const Map = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
     const [marker, setData] = useState([]);
     const theme = useTheme();
@@ -135,13 +135,8 @@ const Map = ({navigation}) => {
 
 
     useEffect(() => {
-        axios
-            .get("http://192.168.86.180:8080/showApartmentListing")
-            .then(res => {
-                setData(res.data);
-            })
-            .catch(error => console.error(error))
-            .finally(() => setLoading(false));
+        setData(route.params);
+
     }, []);
 
     useEffect(() => {
@@ -325,22 +320,22 @@ const Map = ({navigation}) => {
                 {marker.filter(e => {
                     return e.longitude !== '' && e.latitude !== ''
                 })
-                    .map((responseData, index) => {
+                    .map((data, index) => {
                         return (
                             <View style={styles.card} key={index}>
                                 <Image
-                                    source={{uri: responseData.imageURL1}}
+                                    source={{uri: data.imageURL1}}
                                     style={styles.cardImage}
                                 />
                                 <View style={styles.textContent}>
-                                    <Text numberOfLines={1} style={styles.cardaddress}>{responseData.address}</Text>
+                                    <Text numberOfLines={1} style={styles.cardaddress}>{data.address}</Text>
                                     <Text numberOfLines={1}
-                                          style={styles.cardDescription}>{responseData.description}</Text>
+                                          style={styles.cardDescription}>{data.description}</Text>
                                     <View style={styles.button}>
                                         <TouchableOpacity
                                             onPress={() => {
                                                 console.log("RentalListingDetails onPress")
-                                                navigation.navigate("RentalListingDetails", responseData);
+                                                navigation.navigate("RentalListingDetails", data);
                                             }}
                                             style={[styles.signIn, {
                                                 borderColor: '#FF6347',

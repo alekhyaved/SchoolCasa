@@ -30,7 +30,7 @@ export default function RentalListings({ navigation, route }) {
     };
 
     axios
-      .get("http://192.168.1.9:8080/showApartmentListing")
+      .get("http://192.168.86.180:8080/showApartmentListing")
       //.get("http://192.168.0.31:8080/showApartmentListing")
       .then(function(response) {
         let data = response.data;
@@ -120,7 +120,8 @@ export default function RentalListings({ navigation, route }) {
               <View
                 style={{
                   flexDirection: "row",
-                  alignItems: "center"
+                  alignItems: "center",
+                  right: "5%"
                 }}
               >
                 <AntDesign
@@ -151,14 +152,16 @@ export default function RentalListings({ navigation, route }) {
                     delete route.params;
                   }}
                 />
-                <Foundation
-                  onPress={() => {
-                    navigation.navigate("Map");
-                  }}
-                  name="map"
-                  size={38}
-                  color="black"
-                />
+                <View style={{marginRight: 20}}>
+                  <Foundation
+                      onPress={() => {
+                        navigation.navigate("Map", data);
+                      }}
+                      name="map"
+                      size={38}
+                      color="black"
+                  />
+                </View>
               </View>
             </View>
             <Text></Text>
