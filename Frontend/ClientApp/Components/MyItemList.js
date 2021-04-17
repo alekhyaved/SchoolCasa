@@ -1,49 +1,59 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  AppRegistry,
   FlatList,
   StyleSheet,
   Text,
   View,
   Image,
   ScrollView,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
   Alert,
 } from "react-native";
-import { Button, Header } from "react-native-elements";
 import axios from "axios";
-import { SearchBar } from "react-native-elements";
-import { AntDesign, EvilIcons } from "@expo/vector-icons";
 
-export default class MyItemList extends Component {
-  state = {
-    items: [],
-    editRequest: false,
-    search: "",
-    modalId: null,
-  };
+import { AntDesign } from "@expo/vector-icons";
 
-  updateSearch = (event) => {
-    this.setState({ search: event.substring(0, 20) });
-  };
 
-  componentDidMount() {
+export function MyItemList({ navigation }) {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
     axios
       .get("http://192.168.0.9:8080/getMyItemListings/" + email)
-      .then((response) => {
-        this.setState({ items: response.data });
-      });
-  }
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [data]);
 
-  render() {
-    let data = this.state.items;
-    return (
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
+
+  const onPressDelete = (id) => {
+    const url = "http://192.168.0.9:8080/deleteItemListing/" + id;
+    const config = {
+      headers: {
+        "content-type": "text/html",
+      },
+    };
+    axios
+      .delete(url, config)
+      .then((res) => {
+        alert("Selected Listing is deleted");
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log("error");
+      });
+  };
+
+  return (
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      {isLoading ? (
+        <Text></Text>
+      ) : (
         <ScrollView>
           <View style={{ flexDirection: "row" }}>
             <Text></Text>
@@ -95,16 +105,16 @@ export default class MyItemList extends Component {
                   onPress={() => {
                     Alert.alert(
                       "Confirmation",
-                      "Do you want to delete apartment listing?",
+                      "Do you want to delete item listing?",
                       [
                         {
                           text: "Cancel",
-                          onPress: () => console.log("Cancel Pressed"),
+                          // onPress: () => console.log("Cancel Pressed"),
                           style: "cancel",
                         },
                         {
                           text: "OK",
-                          onPress: () => console.log("OK"),
+                          onPress: () => onPressDelete(responseData.id),
                         },
                       ]
                     );
@@ -114,9 +124,9 @@ export default class MyItemList extends Component {
             </View>
           ))}
         </ScrollView>
-      </ScrollView>
-    );
-  }
+      )}
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({

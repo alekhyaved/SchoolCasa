@@ -17,7 +17,7 @@ import { CustomMenu } from "./CustomMenu";
 import { Profile } from "./Profile";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
-import MyItemList from "./MyItemList";
+import { MyItemList } from "./MyItemList";
 
 
 const Stack = createStackNavigator();
@@ -293,7 +293,7 @@ function myItemListingsStack({ navigation }) {
           headerStyle: {
             backgroundColor: "#ffdb58",
           },
-          headerTintColor: "#fff",
+          headerTintColor: "#000000",
           headerTitleStyle: {
             fontWeight: "bold",
           },
