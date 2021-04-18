@@ -30,7 +30,7 @@ export default function RentalListings({ navigation, route }) {
     };
 
     axios
-      .get("http://192.168.86.180:8080/showApartmentListing")
+      .get("http://192.168.0.9:8080/showApartmentListing")
       //.get("http://192.168.0.31:8080/showApartmentListing")
       .then(function(response) {
         let data = response.data;
@@ -112,7 +112,7 @@ export default function RentalListings({ navigation, route }) {
                   marginLeft: 15
                 }}
                 onPress={() => {
-                  navigation.navigate("AddApartmentListing");
+                  navigation.push("AddApartmentListing");
                 }}
               />
               <Text>{"            "}</Text>
