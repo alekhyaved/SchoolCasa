@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     AppRegistry,
     FlatList,
@@ -14,124 +14,85 @@ import {
 } from 'react-native';
 import {Button, Header} from "react-native-elements";
 import axios from "axios";
-import { SearchBar } from 'react-native-elements';
-import { AntDesign, EvilIcons } from '@expo/vector-icons';
+import {SearchBar} from 'react-native-elements';
+import {AntDesign, EvilIcons} from '@expo/vector-icons';
 
+export default function ItemList({navigation, route}) {
+    const [items, setData] = useState([]);
+    const [newItems, setItem] = useState([]);
+    const [search, setSearch] = useState('');
+    const [modalId, setModalId] = useState(null);
 
-export default class ItemList extends Component {
+    useEffect(() => {
+        if (search === "") {
+            axios
+                .get("http://192.168.86.180:8080/itemListing")
+                .then(res => {
+                    setData(res.data);
+                    setItem(items);
+                })
+                .catch(error => console.error(error));
+        }
+    }, [items]);
 
-    state = {
-        items : [],
-        editRequest: false,
-        search: '',
-        modalId: null
+    const updateSearch = event => {
+        setSearch(event.substring(0, 20));
 
+        let data = items.filter(
+            (product) => {
+                return product.productName.toLowerCase().indexOf(search.toLowerCase()) != -1;
+            }
+        )
+        setData(data);
     };
-    //192.168.86.180
 
-    updateSearch = (event) => {
-        this.setState({search: event.substring(0,20) });
-    };
+    return (
+        <ScrollView contentContainerStyle={{flexGrow: 1}}
+                    keyboardShouldPersistTaps='handled'>
 
-    componentDidMount() {
-        axios.get("http://192.168.86.180:8080/itemListing").then(response => {
-      //  axios.get("http://192.168.0.31:8080/itemListing").then(response => {
-            this.setState({ items: response.data });
-        });
-    }
-
-    render() {
-        const { search } = this.state;
-        let data= this.state.items.filter(
-                (product) => {
-                    return product.productName.toLowerCase().indexOf(this.state.search.toLowerCase())!= -1;
-                }
-            )
-
-        return (
-            <ScrollView contentContainerStyle={{flexGrow: 1}}
-                        keyboardShouldPersistTaps='handled'>
-
-                <View style={{ flexDirection: "row" }}>
-                    <Button
-                        // onPress={() => {
-                        //     navigation.navigate("ItemAddScreen");
-                        // }}
-                        title="My Listings"
-                        // // color="#ffbf58"
-                        // backgroundColor="#ffbf58"
-
-                        buttonStyle={{
-                            backgroundColor: "#ffdb58",
-                            // borderRadius: 60,
-                            // flex: 1,
-                            height: 40,
-                            width: "60%"
-                        }}
-                        titleStyle={{
-                            color: "black",
-                            fontSize: 15,
-                            fontWeight: "bold"
-                        }}
-                    />
-                    <AntDesign
-                name="plus"
-                size={40}
-                color="black" style={{
-                  // borderRadius: 60,
-                  // flex: 1,
-                  height: 40,
-                  width: "30%",
-                  marginLeft: 15,
-                }}
-                onPress={() => {
-                    this.props.navigation.navigate("ItemAddScreen");
-                }}
-                    />
-                    {/* <Button
-                        onPress={() => {
-                            this.props.navigation.navigate("ItemAddScreen");
-                        }}
-                        title="+"
-                        // // color="#ffbf58"
-                        // backgroundColor="#ffbf58"
-
-                        buttonStyle={{
-                            backgroundColor: "#ffdb58",
-                            // borderRadius: 60,
-                            // flex: 1,
-                            right:0,
-                            height: 40,
-                            width: "70%"
-                        }}
-                        titleStyle={{
-                            color: "black",
-                            fontSize: 30,
-                            fontWeight: "bold"
-                        }}
-                    /> */}
-                </View>
-                <SearchBar
-                    inputStyle={{backgroundColor: 'white'}}
-                    placeholder="Search Item..."
-                    onChangeText={this.updateSearch}
-                    containerStyle={{backgroundColor: 'white'}}
-                    value={search}
-
-
+            <View style={{flexDirection: "row"}}>
+                <Button
+                    title="My Listings"
+                    buttonStyle={{
+                        backgroundColor: "#ffdb58",
+                        height: 40,
+                        width: "60%"
+                    }}
+                    titleStyle={{
+                        color: "black",
+                        fontSize: 15,
+                        fontWeight: "bold"
+                    }}
                 />
+                <AntDesign
+                    name="plus"
+                    size={40}
+                    color="black" style={{
+                    height: 40,
+                    width: "30%",
+                    marginLeft: 15,
+                }}
+                    onPress={() => {
+                        navigation.navigate("ItemAddScreen");
+                    }}
+                />
+            </View>
+            <SearchBar
+                inputStyle={{backgroundColor: 'white'}}
+                placeholder="Search Item..."
+                onChangeText={updateSearch}
+                // onClear={useEffect}
+                containerStyle={{backgroundColor: 'white'}}
+                value={search}
+
+
+            />
 
             <ScrollView>
-            {/*    data={this.state.items.filter(*/}
-            {/*    (product) => {*/}
-            {/*        return product.productName.indexOf(this.state.search)!= -1;*/}
-            {/*    }*/}
-            {/*)}*/}
-
-            {data.map(responseData => (
+                {items.map(responseData => (
                     <View key={responseData.id} style={styles.item}>
                         <Image
-                            source={{ uri: responseData.imageURL }}
+                            source={{uri: responseData.imageURL}}
                             style={{
                                 width: 170,
                                 height: 150,
@@ -139,35 +100,33 @@ export default class ItemList extends Component {
                                 borderWidth: 2
                             }}
                         />
-                        <View style={{ flex: 1, padding: 10 }}>
-                            <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+                        <View style={{flex: 1, padding: 10}}>
+                            <Text style={{fontSize: 22, fontWeight: "bold"}}>
                                 {responseData.productName}
                             </Text>
-                            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                            <Text style={{fontSize: 15, fontWeight: "bold"}}>
                                 {responseData.address}
                             </Text>
                             <Text></Text>
                             <Text></Text>
-                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "green" }}>
+                            <Text style={{fontSize: 18, fontWeight: "bold", color: "green"}}>
                                 ${responseData.price}
                             </Text>
-                            {/*<AntDesign*/}
-                            {/*    onPress={() => this.props.navigation.navigate("Item Details", {*/}
-                            {/*        itemDescription : responseData.description,*/}
-                            {/*        itemWarranty    : responseData.warranty,*/}
-                            {/*        itemCategory    : responseData.category,*/}
-                            {/*        itemAge         : responseData.age,*/}
-                            {/*        itemOwner       : '9999999999',*/}
-
-                            {/*    })}*/}
-                            {/*    name="rightcircle" size={30} color="black" style = {styles.nextButton} />*/}
-                            <AntDesign onPress={()=> {this.setState(({modalId:responseData.id}))}} name="rightcircle" size={30} color="black" style = {styles.nextButton}/>
+                            <AntDesign onPress={() => {
+                                setModalId(responseData.id)
+                            }} name="rightcircle" size={30} color="black" style={styles.nextButton}/>
                             {/*<Button title = "show" onPress={()=> {this.setState(({show:true}))}}/>*/}
-                            <Modal transparent={true} visible={this.state.modalId===responseData.id} >
-                                <View style={{backgroundColor:"#000000aa", flex:1}}>
-                                    <View style={{backgroundColor:"#ffffff",margin:50,padding:40,borderRadius:10,flex:1}}>
+                            <Modal transparent={true} visible={modalId === responseData.id}>
+                                <View style={{backgroundColor: "#000000aa", flex: 1}}>
+                                    <View style={{
+                                        backgroundColor: "#ffffff",
+                                        margin: 50,
+                                        padding: 40,
+                                        borderRadius: 10,
+                                        flex: 1
+                                    }}>
                                         <Image
-                                            source={{ uri: responseData.imageURL }}
+                                            source={{uri: responseData.imageURL}}
                                             style={{
                                                 width: "100%",
                                                 height: "50%",
@@ -178,17 +137,21 @@ export default class ItemList extends Component {
                                             }}
                                         />
                                         <Text></Text>
-                                        <Text style={{ fontSize: 18, fontWeight: "bold"}}>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>
                                             Price : ${responseData.price}
                                         </Text>
 
-                                       <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                                        Address : {responseData.address}
-                                       </Text>
-                                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>Description : {responseData.description}</Text>
-                                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>Warranty : {responseData.warranty.substring(8)}</Text>
-                                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>Category : {responseData.category}</Text>
-                                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>Age : {responseData.age.substring(3) + " years"}</Text>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>
+                                            Address : {responseData.address}
+                                        </Text>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>Description
+                                            : {responseData.description}</Text>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>Warranty
+                                            : {responseData.warranty.substring(8)}</Text>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>Category
+                                            : {responseData.category}</Text>
+                                        <Text style={{fontSize: 18, fontWeight: "bold"}}>Age
+                                            : {responseData.age.substring(3) + " years"}</Text>
                                         <Text></Text>
                                         <Button
                                             onPress={() => {
@@ -205,7 +168,9 @@ export default class ItemList extends Component {
                                                 backgroundColor: "#ffdb58"
                                             }}
                                         />
-                                        <AntDesign onPress={()=> {this.setState(({modalId:null}))}} name="close" size={30} color="black" style = {styles.closeButton}/>
+                                        <AntDesign onPress={() => {
+                                            setModalId(null)
+                                        }} name="close" size={30} color="black" style={styles.closeButton}/>
 
                                     </View>
                                 </View>
@@ -217,28 +182,28 @@ export default class ItemList extends Component {
 
                     </View>
                 ))}
-    </ScrollView>
-
             </ScrollView>
-        )
-    }
+
+        </ScrollView>
+    )
+
 }
 
 const styles = StyleSheet.create({
 
     nextButton: {
         position: 'absolute',
-        bottom:"40%",
-        right:0,
-        top:"40%",
+        bottom: "40%",
+        right: 0,
+        top: "40%",
         alignItems: "center",
         // justifyContent: 'center',
 
     },
     closeButton: {
         position: 'absolute',
-        right:0,
-        top:0,
+        right: 0,
+        top: 0,
     },
 
     item: {
