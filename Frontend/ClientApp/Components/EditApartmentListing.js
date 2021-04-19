@@ -10,7 +10,7 @@ import {
   Switch,
   CheckBox,
   Image,
-  TouchableOpacity,
+  TouchableOpacity, LogBox,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
@@ -20,6 +20,8 @@ import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
+import config from "../config";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 
 class EditApartmentListing extends Component {
   constructor(props) {
@@ -54,6 +56,7 @@ class EditApartmentListing extends Component {
     // Permissions.askAsync(Permissions.LOCATION);
     // console.log("checking params did mount");
     // console.log(this.props.route.params);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }
 
   handleAddressChange(address) {
@@ -129,7 +132,7 @@ class EditApartmentListing extends Component {
     };
     axios
       .put(
-        "http://192.168.0.9:8080" + "/editApartmentListing/",
+        "http://192.168.86.180:8080" + "/editApartmentListing/",
         formData,
         config
       )
@@ -197,22 +200,23 @@ class EditApartmentListing extends Component {
         this.setState({ localUri3: localUri });
         this.setState({ filename3: filename });
       }
-      //console.log(filename);
     };
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="handled" >
           <View style={styles.inputContainer}>
             <Text style={styles.textLabel}>Address</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter address"
-              onBlur={Keyboard.dismiss}
-              multiline={true}
-              numberOfLines={3}
-              value={this.state.address}
-              onChangeText={this.handleAddressChange}
-              onEndEditing={this.handleEndEditing}
+            <GooglePlacesAutocomplete
+                placeholder = {this.state.address}
+                onPress={(data, details = null) => {
+                  // 'details' is provided when fetchDetails = true
+                  this.handleAddressChange(data.description);
+                  this.handleEndEditing().then(r => console.log("handled geocoding"))
+                }}
+                query={{
+                  key: config.google.API_KEY,
+                  language: 'en',
+                }}
             />
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.textLabel}>Beds</Text>
