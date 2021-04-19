@@ -30,7 +30,7 @@ export default function RentalListings({ navigation, route }) {
     };
 
     axios
-      .get("http://192.168.86.180:8080/showApartmentListing")
+      .get("http://192.168.0.9:8080/showApartmentListing")
       //.get("http://192.168.0.31:8080/showApartmentListing")
       .then(function(response) {
         let data = response.data;
@@ -85,6 +85,28 @@ export default function RentalListings({ navigation, route }) {
       .catch(function(error) {})
       .finally(() => setLoading(false));
   }, [data]);
+
+  const populateInteraction=(apartmentId)=>{
+    let formData = new FormData();
+    formData.append("userEmail", email);
+    formData.append("apartmentId", apartmentId);
+    const config = {
+      headers: {
+        Accept: "application/json",
+      },
+    };
+    axios
+      .post("http://192.168.0.9:8080" + "/postInteraction", formData, config)
+      .then(function (response) {
+        return response;
+      })
+      .then((data) => {
+        // console.log("success");
+      })
+      .catch(function (error) {
+        //console.log("Error " + JSON.stringify(error));
+      });
+  }
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -112,7 +134,7 @@ export default function RentalListings({ navigation, route }) {
                   marginLeft: 15
                 }}
                 onPress={() => {
-                  navigation.navigate("AddApartmentListing");
+                  navigation.push("AddApartmentListing");
                 }}
               />
               <Text>{"            "}</Text>
@@ -210,6 +232,7 @@ export default function RentalListings({ navigation, route }) {
                     color="black"
                     justifyContent="flex-end"
                     onPress={() => {
+                      populateInteraction(responseData.id);
                       navigation.navigate("RentalListingDetails", responseData);
                     }}
                   />

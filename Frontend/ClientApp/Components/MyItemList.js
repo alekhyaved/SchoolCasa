@@ -92,7 +92,7 @@ export function MyItemList({ navigation }) {
                   color="black"
                   justifyContent="flex-end"
                   onPress={() => {
-                    // navigation.navigate("EditApartmentListing", responseData);
+                     navigation.push("EditItemListing",responseData);
                   }}
                 />
                 <Text></Text>

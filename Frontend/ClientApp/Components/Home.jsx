@@ -18,6 +18,7 @@ import { Profile } from "./Profile";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
 import { MyItemList } from "./MyItemList";
+import EditItemListing from "./EditItemListing";
 
 
 const Stack = createStackNavigator();
@@ -299,7 +300,21 @@ function myItemListingsStack({ navigation }) {
           },
         }}
       />
-    </Stack.Navigator>
+      <Stack.Screen
+        name="EditItemListing"
+        component={EditItemListing}
+        options={{
+          title: "Edit Item Listing",
+          headerStyle: {
+            backgroundColor: "#ffdb58",
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+    </Stack.Navigator>   
   );
 }
 
