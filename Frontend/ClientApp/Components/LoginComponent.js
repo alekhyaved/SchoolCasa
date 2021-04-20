@@ -11,6 +11,8 @@ class LoginComponent extends React.Component {
 
   saveUser() {
     global.email = Auth.user.signInUserSession.idToken.payload.email;
+    global.phone_number =
+      Auth.user.signInUserSession.idToken.payload.phone_number;
     let formData = new FormData();
     formData.append("email", Auth.user.signInUserSession.idToken.payload.email);
     formData.append(
