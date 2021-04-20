@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Linking } from "react-native";
 import { Button, Image } from "react-native-elements";
 import Swiper from "react-native-swiper";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Zocial, AntDesign } from "@expo/vector-icons";
 
 export default function RentalListingDetails({ navigation, route }) {
   return (
-    <View style={{ flex: 1, padding: 2 }}>
+    <View style={{ flex: 1, padding: 4 }}>
       <ScrollView>
         <Swiper
           height={260}
@@ -29,8 +31,8 @@ export default function RentalListingDetails({ navigation, route }) {
           showsButtons
         >
           <View>
-          {/* {route.params.imageURL1 &&  */}
-          <Image
+            {/* {route.params.imageURL1 &&  */}
+            <Image
               source={{
                 uri: route.params.imageURL1
               }}
@@ -54,7 +56,6 @@ export default function RentalListingDetails({ navigation, route }) {
             />
           </View>
           <View>
-            
             <Image
               source={{
                 uri: route.params.imageURL3
@@ -69,12 +70,34 @@ export default function RentalListingDetails({ navigation, route }) {
           </View>
         </Swiper>
         <View style={{ flex: 1, padding: 2 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }} />
+          <Text style={{ fontSize: 30, fontWeight: "bold" }} />
+          <View
+            style={{
+              flexDirection: "row",
+              flex: 1
+            }}
+          >
+            <Text style={{ flex: 1, fontSize: 25, fontWeight: "bold" }}>
+              {route.params.address}
+            </Text>
+            <FontAwesome5
+              // style={{ flex: 1 }}
+              onPress={() => {
+                Linking.openURL(
+                  "https://www.google.com/maps/dir/?api=1&destination=" +
+                    route.params.latitude +
+                    "," +
+                    route.params.longitude
+                );
+              }}
+              name="directions"
+              size={50}
+              color="black"
+            />
+          </View>
+          <Text style={{ fontSize: 10, fontWeight: "bold" }} />
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             Price : ${route.params.rent}
-          </Text>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Address : {route.params.address}
           </Text>
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             Description : {route.params.description}
@@ -85,35 +108,25 @@ export default function RentalListingDetails({ navigation, route }) {
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             Availability : {route.params.availableDate.substring(0, 10)}
           </Text>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}></Text>
-          <View style={{ flex: 3, padding: 5 }}>
-            <Button
-              title="Contact"
-              buttonStyle={{
-                backgroundColor: "#ffdb58"
-              }}
-              titleStyle={{
-                color: "black"
-              }}
-            />
-            <Text />
-            <Button
-              onPress={() => {
-                Linking.openURL(
-                  "https://www.google.com/maps/dir/?api=1&destination=" +
-                    route.params.latitude +
-                    "," +
-                    route.params.longitude
-                );
-              }}
-              title="Get Directions"
-              titleStyle={{
-                color: "black"
-              }}
-              buttonStyle={{
-                backgroundColor: "#ffdb58"
-              }}
-            />
+          <Text style={{ fontSize: 12, fontWeight: "bold" }}></Text>
+          <Text
+            style={{ fontSize: 25, fontWeight: "bold", textAlign: "center" }}
+          >
+            Contact
+          </Text>
+          <Text style={{ fontSize: 8, fontWeight: "bold" }}></Text>
+          <View
+            style={{
+              backgroundColor: "#D3D3D3",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            <AntDesign name="message1" size={40} color="black" />
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {"                  "}
+            </Text>
+            <Zocial name="email" size={40} color="black" />
           </View>
         </View>
       </ScrollView>
