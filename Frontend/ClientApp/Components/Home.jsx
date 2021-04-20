@@ -14,7 +14,7 @@ import ItemAddScreen from "./ItemAddScreen";
 import Map from "./Map";
 import { SearchAndFilter } from "./SearchAndFilter";
 import { CustomMenu } from "./CustomMenu";
-import { Profile } from "./Profile";
+import { Preferences } from "./Preferences";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
 import { MyItemList } from "./MyItemList";
@@ -163,14 +163,14 @@ function rentalListingsStack({ navigation }) {
   );
 }
 
-function profileStack({ navigation }) {
+function preferencesStack({ navigation }) {
   return (
-    <Stack.Navigator initialRouteName="Profile">
+    <Stack.Navigator initialRouteName="Preferences">
       <Stack.Screen
-        name="Profile"
-        component={Profile}
+        name="Preferences"
+        component={Preferences}
         options={{
-          title: "School Casa", //Set Header Title
+          title: "My Preferences ", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -414,9 +414,9 @@ class Home extends React.Component {
             component={myItemListingsStack}
           />
           <Drawer.Screen
-            name="Profile"
-            options={{ drawerLabel: "Profile" }}
-            component={profileStack}
+            name="Preferences"
+            options={{ drawerLabel: "Preferences" }}
+            component={preferencesStack}
           />
           <Drawer.Screen
             name="Sign Out"

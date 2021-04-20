@@ -130,8 +130,8 @@ export default function RentalListings({ navigation, route }) {
                   // borderRadius: 60,
                   // flex: 1,
                   height: 40,
-                  width: "25%",
-                  marginLeft: 15
+                  width: "15%",
+                  marginLeft: 10
                 }}
                 onPress={() => {
                   navigation.push("AddApartmentListing");
