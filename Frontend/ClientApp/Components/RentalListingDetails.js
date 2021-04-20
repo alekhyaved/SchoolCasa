@@ -122,11 +122,27 @@ export default function RentalListingDetails({ navigation, route }) {
               justifyContent: "center"
             }}
           >
-            <AntDesign name="message1" size={40} color="black" />
+            <AntDesign
+              name="message1"
+              size={40}
+              color="black"
+              onPress={() => Linking.openURL("sms:" + phone_number)}
+            />
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               {"                  "}
             </Text>
-            <Zocial name="email" size={40} color="black" />
+            <Zocial
+              name="email"
+              size={40}
+              color="black"
+              onPress={() =>
+                Linking.openURL(
+                  "mailto:" +
+                    email +
+                    "?subject=Sending email regarding a post at SCHOOLCASA"
+                )
+              }
+            />
           </View>
         </View>
       </ScrollView>
