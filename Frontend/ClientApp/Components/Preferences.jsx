@@ -3,6 +3,7 @@ import { View, StyleSheet, Image,Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Button} from "react-native-paper";
 import axios from "axios";
+import config from "../config.json"
 
 export class Preferences extends React.Component {
 
@@ -71,9 +72,8 @@ export class Preferences extends React.Component {
           }
       };
       axios
-           .post("http://192.168.0.2:8080/addPreference", prefObj)
-          //  .post("http://192.168.0.31:8080/addPreference", prefObj)
-         // .post("http://192.168.0.9:8080/addPreference", newPreference, configure)
+          //  .post("http://192.168.0.2:8080/addPreference", prefObj)
+           .post(config.BackendUrl + "/addPreference", prefObj)
           .then(response => {
               console.log("preference : " + JSON.stringify(response));
               alert("Preferences Added Successfully");

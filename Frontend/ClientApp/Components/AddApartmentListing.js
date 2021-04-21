@@ -155,8 +155,8 @@ class AddApartmentListing extends Component {
       },
     };
     axios
-      // .post("http://10.233.20.244:8080" + "/postAptLisiting/", formData, config)
-      .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData, config)
+      .post(config.BackendUrl+ "/postAptLisiting/", formData, config)
+      // .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData, config)
       .then(function (response) {
         return response;
       })

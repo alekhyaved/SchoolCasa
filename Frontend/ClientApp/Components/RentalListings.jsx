@@ -12,6 +12,7 @@ import {
 } from "react-native-elements";
 import { Foundation } from "@expo/vector-icons";
 import axios from "axios";
+import config from "../config.json";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MyList } from "./MyList";
@@ -96,7 +97,8 @@ export default function RentalListings({ navigation, route }) {
       },
     };
     axios
-      .post("http://192.168.0.9:8080" + "/postInteraction", formData, config)
+      // .post("http://192.168.0.9:8080" + "/postInteraction", formData, config)
+      .post(config.BackendUrl + "/postInteraction", formData, config) 
       .then(function (response) {
         return response;
       })

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {Button, Header} from "react-native-elements";
 import axios from "axios";
+import config from "../config.json"
 import {SearchBar} from 'react-native-elements';
 import {AntDesign, EvilIcons} from '@expo/vector-icons';
 
@@ -26,7 +27,8 @@ export default function ItemList({navigation, route}) {
     useEffect(() => {
         if (search === "") {
             axios
-                .get("http://192.168.86.180:8080/itemListing")
+                .get(config.BackendUrl+ "/itemListing")
+                // .get("http://192.168.86.180:8080/itemListing")
                 .then(res => {
                     setData(res.data);
                     setItem(items);

@@ -146,8 +146,8 @@ class ItemAddScreen extends Component {
             }
         };
         axios
-             .post("http://192.168.86.180:8080/postItem", newItem, configure)
-           // .post("http://192.168.0.9:8080/postItem", newItem, configure)
+            //  .post("http://192.168.86.180:8080/postItem", newItem, configure)
+           .post(config.BackendUrl + "/postItem", newItem, configure)
             .then(response => {
                 console.log("Item : " + JSON.stringify(response));
                 // alert("Item Added Successfully");

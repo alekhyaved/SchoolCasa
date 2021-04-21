@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { View, Text, ScrollView, FlatList, Alert } from "react-native";
 import { Button, Image } from "react-native-elements";
 import axios from "axios";
+import config from "../config.json"
 import { AntDesign } from "@expo/vector-icons";
 
 export function MyList({ navigation }) {
