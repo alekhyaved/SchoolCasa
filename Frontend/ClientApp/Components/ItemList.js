@@ -84,7 +84,7 @@ export default function ItemList({navigation, route}) {
                 placeholder="Search Item..."
                 onChangeText={updateSearch}
                 // onClear={useEffect}
-                containerStyle={{backgroundColor: 'white',width: "85%",marginLeft:15}}
+                containerStyle={{backgroundColor: 'white',width: "85%",marginLeft:10}}
                 value={search}
 
 
