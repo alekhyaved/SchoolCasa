@@ -53,7 +53,7 @@ export default function ItemList({navigation, route}) {
                     keyboardShouldPersistTaps='handled'>
 
             <View style={{flexDirection: "row"}}>
-                <Button
+                {/* <Button
                     title="My Listings"
                     buttonStyle={{
                         backgroundColor: "#ffdb58",
@@ -65,30 +65,31 @@ export default function ItemList({navigation, route}) {
                         fontSize: 15,
                         fontWeight: "bold"
                     }}
-                />
+                /> */}
                 <AntDesign
-                    name="plus"
+                    name="plussquare"
                     size={40}
                     color="black" style={{
-                    height: 40,
-                    width: "30%",
+                    height: 50,
+                    width: "10%",
                     marginLeft: 15,
+                    marginTop: 10,
                 }}
                     onPress={() => {
                         navigation.navigate("ItemAddScreen");
                     }}
                 />
-            </View>
             <SearchBar
-                inputStyle={{backgroundColor: 'white'}}
+                inputStyle={{backgroundColor: 'white',width: "80%"}}
                 placeholder="Search Item..."
                 onChangeText={updateSearch}
                 // onClear={useEffect}
-                containerStyle={{backgroundColor: 'white'}}
+                containerStyle={{backgroundColor: 'white',width: "85%",marginLeft:15}}
                 value={search}
 
 
             />
+                  </View>
 
             <ScrollView>
                 {items.map(responseData => (
