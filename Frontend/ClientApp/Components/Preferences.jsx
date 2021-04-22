@@ -4,6 +4,8 @@ import { Picker } from "@react-native-picker/picker";
 import { Button} from "react-native-paper";
 import axios from "axios";
 import config from "../config.json"
+import LoginComponent from "./LoginComponent";
+import Home from "./Home";
 
 export class Preferences extends React.Component {
 
@@ -14,7 +16,8 @@ export class Preferences extends React.Component {
         studyTime: "Early morning",
         isSmoking: "No",
         isPetFriendly: "Yes",
-        email: email,
+        email: global.email,
+        isPreferencesSaved: false
     };
 
     this.handleFoodPrefChange = this.handleFoodPrefChange.bind(this);
@@ -77,7 +80,10 @@ export class Preferences extends React.Component {
           .then(response => {
               console.log("preference : " + JSON.stringify(response));
               alert("Preferences Added Successfully");
-              this.props.navigation.navigate('RentalListings')
+              this.setState({
+                isPreferencesSaved: true
+              })
+              // this.props.navigation.navigate('RentalListings')
               // this.props.history.push("/admin/vehicleList");
           })
           .catch(error => {
@@ -90,10 +96,15 @@ export class Preferences extends React.Component {
   };
 
   render() {
+    if(!this.state.isPreferencesSaved) {
     return (
         <View  style={styles.container}>
           <View style={styles.inputcontainer}>
-            <Text style= {styles.textHeading}>Manage your Preferences</Text>
+          <Text style= {styles.textHeading}>School Casa</Text>
+            <Text style= {{    fontSize: 18,fontWeight:"bold",paddingBottom: 10,
+            paddingLeft: 10,paddingTop: 10,marginTop:20,
+            justifyContent: "center", textAlign:"left"}}
+            >Manage your Preferences</Text>
             <Text></Text>
             <View style={{ flexDirection: "row" }}>
             <Text style={styles.textLabel}>Food Preference</Text>
@@ -111,7 +122,7 @@ export class Preferences extends React.Component {
             <Text style={styles.textLabel}>Study Timings</Text>
             <Picker
                     // selectedValue={this.state.studyTime}
-                    style={{height: 50, width: 200, marginLeft: 30}}
+                    style={{height: 50, width: 200, marginLeft: 45}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ studyTime: itemValue })}
                 >
                     <Picker.Item label="Early morning" value="early"/>
@@ -123,7 +134,7 @@ export class Preferences extends React.Component {
             <Text style={styles.textLabel}>Smoking</Text>
             <Picker
                     selectedValue={this.state.isSmoking}
-                    style={{height: 50, width: 200, marginLeft: 30}}
+                    style={{height: 50, width: 200, marginLeft: 89}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ isSmoking: itemValue })}
                 >
                     <Picker.Item label="No" value="SmokeNo"/>
@@ -136,7 +147,7 @@ export class Preferences extends React.Component {
             <Text style={styles.textLabel}>Pet friendly</Text>
             <Picker
                     selectedValue={this.state.isPetFriendly}
-                    style={{height: 50, width: 200, marginLeft: 30}}
+                    style={{height: 50, width: 200, marginLeft: 66}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ isPetFriendly: itemValue })}
                 >
                     <Picker.Item label="Yes" value="petYes"/>
@@ -144,7 +155,7 @@ export class Preferences extends React.Component {
                 </Picker>
                 </View>
 
-                <View style={{height: 50, width: "60%", marginLeft: 80, marginTop: 30, borderRadius: 60}}>
+                <View style={{height: 50, width: "40%", marginLeft: 120, marginTop: 40, borderRadius: 60,justifyContent:"center", }}>
                     <Button mode="contained" color = '#ffdb58'
                         onPress={this.submitPreferences} >Submit</Button>
                 </View>
@@ -153,6 +164,9 @@ export class Preferences extends React.Component {
 
         </View>
     );
+    } else {
+      return (<Home navigation={this.props.navigation} />);
+    }
   }
 }
 
@@ -191,13 +205,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   textHeading: {
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight:"bold",
     paddingBottom: 10,
     paddingLeft: 10,
     paddingTop: 10,
-    marginLeft: 80,
-    marginRight:80,
-    marginTop:20
+    marginTop:30,
+    backgroundColor: "#ffdb58",
+    justifyContent: "center",
+    width:420,
+    height: 50
+    // textAlign:"center"
 
   },
   behind: {

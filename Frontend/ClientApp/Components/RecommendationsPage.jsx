@@ -6,12 +6,18 @@ import { Button, Image } from "react-native-elements";
 import { Foundation } from "@expo/vector-icons";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import config from "../config.json";
+import { Auth } from "aws-amplify";
 
 export default function RecommendationsPage({ navigation }) {
   // {navigation}
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   //exp://192.168.86.180:19000
+  // useEffect(() => {
+  //   checkUser();
+  // }, [])
+
 
   useEffect(() => {
     const config = {
@@ -23,7 +29,7 @@ export default function RecommendationsPage({ navigation }) {
 
     axios
       //.get("http://192.168.0.9:8080/showApartmentListing")
-      .get("http://192.168.1.9:8080/getRecommendations/" + email)
+      .get(config.BackendUrl +"/getRecommendations/" + email)
       .then(function(response) {
         let data = response.data;
         setData(data);
