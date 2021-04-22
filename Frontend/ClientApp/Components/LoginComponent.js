@@ -67,7 +67,7 @@ class LoginComponent extends Component {
   };
 
   render() {
-    if (!this.state.isLoading) {
+    if (this.state.isLoading) {
       return (
         <Preferences navigation={this.props.navigation}/>
       );
