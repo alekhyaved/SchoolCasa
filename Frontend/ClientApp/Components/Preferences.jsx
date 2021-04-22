@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { Button} from "react-native-paper";
 import axios from "axios";
 import config from "../config.json"
-// import LoginComponent from "./LoginComponent";
+import LoginComponent from "./LoginComponent";
 import Home from "./Home";
 
 export class Preferences extends React.Component {

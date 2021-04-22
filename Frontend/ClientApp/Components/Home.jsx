@@ -14,7 +14,7 @@ import ItemAddScreen from "./ItemAddScreen";
 import Map from "./Map";
 import { SearchAndFilter } from "./SearchAndFilter";
 import { CustomMenu } from "./CustomMenu";
-// import { Preferences } from "./Preferences";
+import { Preferences } from "./Preferences";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
 import { MyItemList } from "./MyItemList";
