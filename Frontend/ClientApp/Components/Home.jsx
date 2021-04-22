@@ -14,12 +14,14 @@ import ItemAddScreen from "./ItemAddScreen";
 import Map from "./Map";
 import { SearchAndFilter } from "./SearchAndFilter";
 import { CustomMenu } from "./CustomMenu";
-import { Preferences } from "./Preferences";
+// import { Preferences } from "./Preferences";
 import { MyList } from "./MyList";
 import EditApartmentListing from "./EditApartmentListing";
 import { MyItemList } from "./MyItemList";
 import EditItemListing from "./EditItemListing";
 import RecommendationsPage from "./RecommendationsPage";
+import axios from "axios";
+import config from "../config.json"
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -163,29 +165,29 @@ function rentalListingsStack({ navigation }) {
   );
 }
 
-function preferencesStack({ navigation }) {
-  return (
-    <Stack.Navigator initialRouteName="Preferences">
-      <Stack.Screen
-        name="Preferences"
-        component={Preferences}
-        options={{
-          title: "My Preferences ", //Set Header Title
-          headerLeft: () => (
-            <NavigationDrawerStructure navigationProps={navigation} />
-          ),
-          headerStyle: {
-            backgroundColor: "#ffdb58" //Set Header color
-          },
-          headerTintColor: "#000000", //Set Header text color
-          headerTitleStyle: {
-            fontWeight: "bold" //Set Header text style
-          }
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+// function preferencesStack({ navigation }) {
+//   return (
+//     <Stack.Navigator initialRouteName="Preferences">
+//       <Stack.Screen
+//         name="Preferences"
+//         component={Preferences}
+//         options={{
+//           title: "My Preferences ", //Set Header Title
+//           headerLeft: () => (
+//             <NavigationDrawerStructure navigationProps={navigation} />
+//           ),
+//           headerStyle: {
+//             backgroundColor: "#ffdb58" //Set Header color
+//           },
+//           headerTintColor: "#000000", //Set Header text color
+//           headerTitleStyle: {
+//             fontWeight: "bold" //Set Header text style
+//           }
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function myRentalListingsStack({ navigation }) {
   return (
@@ -336,6 +338,20 @@ function RecommendationsStack({ navigation }) {
           }
         }}
       />
+      {/* <Stack.Screen
+        name="Preferences"
+        component={Preferences}
+        options={{
+          title: "My Preferences",
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      /> */}
       <Stack.Screen
         name="RentalListingDetails"
         component={RentalListingDetails}
@@ -376,6 +392,18 @@ function signOut(props) {
   return <View></View>;
 }
 class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialRouteName: "Apartment Recommendations"
+    }
+    // this.checkUser = this.checkUser.bind(this);
+  }
+  
+  componentDidMount() {
+    // this.checkUser();
+  }
   render() {
     return (
       <NavigationContainer>
@@ -386,6 +414,7 @@ class Home extends React.Component {
             // '#e91e63',
             itemStyle: { marginVertical: 5 }
           }}
+          // initialRouteName={this.state.initialRouteName}
           drawerContent={props => <CustomMenu {...props} />}
         >
           <Drawer.Screen
@@ -413,11 +442,11 @@ class Home extends React.Component {
             options={{ drawerLabel: "My Item Listings" }}
             component={myItemListingsStack}
           />
-          <Drawer.Screen
+          {/* <Drawer.Screen
             name="Preferences"
             options={{ drawerLabel: "Preferences" }}
             component={preferencesStack}
-          />
+          /> */}
           <Drawer.Screen
             name="Sign Out"
             options={{ drawerLabel: "Sign Out" }}
