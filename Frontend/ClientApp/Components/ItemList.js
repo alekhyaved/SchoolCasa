@@ -76,7 +76,7 @@ export default function ItemList({navigation, route}) {
                     marginTop: 10,
                 }}
                     onPress={() => {
-                        navigation.navigate("ItemAddScreen");
+                        navigation.push("ItemAddScreen");
                     }}
                 />
             <SearchBar
