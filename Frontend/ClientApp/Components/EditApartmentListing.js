@@ -97,10 +97,10 @@ class EditApartmentListing extends Component {
       alert("Please enter description");
       return;
     }
-    // if (this.state.date === null) {
-    //   alert("Please select date");
-    //   return;
-    // }
+    if (this.state.date === null) {
+      alert("Please select date");
+      return;
+    }
 
     let formData = new FormData();
     formData.append("apartmentId", this.props.route.params.id);
@@ -124,17 +124,17 @@ class EditApartmentListing extends Component {
     formData.append("longitude", this.state.longitude);
     formData.append("email", email);
 
-    const config = {
+    const configuration = {
       headers: {
         // "content-type": "multipart/form-data",
         Accept: "application/json",
       },
     };
     axios
-      .put(
-        "http://192.168.86.180:8080" + "/editApartmentListing/",
+      .put( 
+        config.BackendUrl + "/editApartmentListing/",
         formData,
-        config
+        configuration
       )
       .then(function (response) {
         return response;
@@ -304,7 +304,7 @@ class EditApartmentListing extends Component {
               isDateBlocked={isDateBlocked}
             />
           </View>
-          <View style={styles.container}>
+          {/* <View style={styles.container}>
             <Text style={styles.textLabel}>Upload Apartment Photos</Text>
             <View style={{ flexDirection: "row" }}>
               {this.state.localUri1 && (
@@ -370,7 +370,7 @@ class EditApartmentListing extends Component {
                 </Text>
               )}
             </View>
-          </View>
+          </View> */}
           <View>
             <Button
               color="#ffdb58"
