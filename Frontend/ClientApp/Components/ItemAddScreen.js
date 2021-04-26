@@ -10,17 +10,16 @@ import config from "../config";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 
 class ItemAddScreen extends Component {
-
     constructor() {
         super();
         this.state = {
             productName: "",
-            price: "",
+            price: "0",
             address: "",
             description: "",
-            age: "",
-            warranty: "",
-            category:"",
+            age: "1 year",
+            warranty: "Yes",
+            category:"Electronics",
             file: "",
             filename: null,
             localUri: null
@@ -112,6 +111,22 @@ class ItemAddScreen extends Component {
     submitItemDetails = event => {
         console.log("inside submit item top");
 
+        if (this.state.address.trim() === "") {
+            alert("Please enter address");
+            return;
+          }
+          if (this.state.productName.trim() === "") {
+              alert("Please enter product name");
+              return;
+            }
+          if (this.state.price.trim() === "") {
+              alert("Please enter price");
+              return;
+            }
+          if (this.state.description.trim() === "") {
+              alert("Please enter description");
+              return;
+            }
 
         var newItem = new FormData();
         newItem.append("productName", this.state.productName);
@@ -173,7 +188,14 @@ class ItemAddScreen extends Component {
                     style={{marginTop: 40, marginLeft: 120, fontFamily: "Roboto", fontSize: 20, fontWeight: "bold"}}>Add
                     an Item</Text> */}
                 {/*  Item Add starts here */}
-                <Text></Text>
+                <View style ={{flexDirection:"row"}}>
+                <Text  style={{
+                        marginTop: 28,
+                        marginLeft: 5,
+                        paddingLeft:10,
+                        fontSize:16,
+                        fontWeight:"bold"
+                    }}>Product </Text>
                 <TextInput
                     style={{
                         height: 40,
@@ -181,15 +203,25 @@ class ItemAddScreen extends Component {
                         borderWidth: 1,
                         width: 300,
                         marginTop: 20,
-                        marginLeft: 30
+                        marginLeft: 25,
+                        paddingLeft:10
                     }}
-                    placeholder="  Product Name"
+                    placeholder="  Enter Product Name"
                     maxLength={60}
                     onBlur={Keyboard.dismiss}
                     onChangeText={this.handleProductNameChange}
                     value={this.state.productName}
                 />
+                </View>
                 {/* <br /> */}
+                <View style ={{flexDirection:"row"}}>
+                <Text  style={{
+                        marginTop: 28,
+                        marginLeft: 5,
+                        paddingLeft:10,
+                        fontSize:16,
+                        fontWeight:"bold"
+                    }}>Price</Text>
                 <TextInput
                     style={{
                         height: 40,
@@ -197,15 +229,16 @@ class ItemAddScreen extends Component {
                         borderWidth: 1,
                         width: 300,
                         marginTop: 20,
-                        marginLeft: 30
+                        marginLeft: 50,
+                        paddingLeft:10
                     }}
-                    placeholder="  Price"
+                    placeholder=" Enter Price"
                     maxLength={10}
                     onBlur={Keyboard.dismiss}
                     onChangeText={this.handlePriceChange}
                     value={this.state.price}
                 />
-
+                </View>
                 {/* <br /> */}
                 {/*<TextInput*/}
                 {/*    multiline*/}
@@ -224,7 +257,14 @@ class ItemAddScreen extends Component {
                 {/*    onChangeText={this.handleAddressChange}*/}
                 {/*    value={this.state.address}*/}
                 {/*/>*/}
-
+                <View style ={{flexDirection:"row"}}>
+                <Text  style={{
+                        marginTop: 28,
+                        marginLeft: 5,
+                        paddingLeft:10,
+                        fontSize:16,
+                        fontWeight:"bold"
+                    }}>Address</Text>
                      <GooglePlacesAutocomplete
                          placeholder='Enter address'
                          onPress={(data, details = null) => {
@@ -240,7 +280,7 @@ class ItemAddScreen extends Component {
                                  height: 40,
                                  borderColor: 'gray',
                                  borderWidth: 1,
-                                 width: 300,
+                                 width: 295,
                                  marginTop: 20,
                                  marginLeft: 30,
                                  flexDirection: 'row',
@@ -254,8 +294,17 @@ class ItemAddScreen extends Component {
 
 
                      />
+                     </View>
 
                 {/* <br /> */}
+                <View style ={{flexDirection:"row"}}>
+                <Text  style={{
+                        marginTop: 28,
+                        marginLeft: 5,
+                        paddingLeft:10,
+                        fontSize:16,
+                        fontWeight:"bold"
+                    }}>Description</Text>
                 <TextInput
                     multiline
                     numberOfLines={3}
@@ -263,20 +312,22 @@ class ItemAddScreen extends Component {
                         height: 40,
                         borderColor: 'gray',
                         borderWidth: 1,
-                        width: 300,
+                        width: 295,
                         marginTop: 20,
-                        marginLeft: 30
+                        marginLeft: 10,
+                        paddingLeft:10,fontSize:16
                     }}
-                    placeholder="  Product Description"
+                    placeholder="  Enter product description"
                     maxLength={100}
                     onBlur={Keyboard.dismiss}
                     onChangeText={this.handleDescriptionChange}
                     value={this.state.description}
                 />
+                </View>
 
                 <Picker
                     selectedValue={this.state.category}
-                    style={{height: 50, width: 150, marginTop: 20, marginLeft: 30}}
+                    style={{height: 50, width: 150, marginTop: 20, marginLeft: 10}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}
                 >
                     <Picker.Item label="Category" value="category"/>
@@ -288,7 +339,7 @@ class ItemAddScreen extends Component {
 
                 <Picker
                     selectedValue={this.state.warranty}
-                    style={{height: 50, width: 150, marginTop: 20, marginLeft: 30}}
+                    style={{height: 50, width: 150, marginTop: 20, marginLeft: 10}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ warranty: itemValue })}
                 >
                     <Picker.Item label="Warranty" value="warranty"/>
@@ -299,11 +350,11 @@ class ItemAddScreen extends Component {
 
                 <Picker
                     selectedValue={this.state.age}
-                    style={{height: 50, width: 200, marginTop: 20, marginLeft: 30}}
+                    style={{height: 50, width: 200, marginTop: 20, marginLeft: 10,fontWeight:"bold"}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ age: itemValue })}
                 >
                     <Picker.Item label="Age of product" value="productAge"/>
-                    <Picker.Item label="1year" value="age1"/>
+                    <Picker.Item label="1 year" value="age1"/>
                     <Picker.Item label="2 years" value="age2"/>
                     <Picker.Item label="3 years" value="age3"/>
                     <Picker.Item label="4 years" value="age4"/>
@@ -314,7 +365,7 @@ class ItemAddScreen extends Component {
                         onPress={this.pickImage} style={{height: 40,
                             width: 170,
                             marginTop: 20,
-                            marginLeft: 30}} >Upload image</Button>
+                            marginLeft: 10,fontWeight:"bold"}} >Upload image</Button>
 
                 <View style={{height: 50, width: "60%", marginLeft: 80, marginTop: 20, borderRadius: 60}}>
                     <Button mode="contained" color = '#ffdb58'
