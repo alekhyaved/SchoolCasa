@@ -21,7 +21,10 @@ import { MyItemList } from "./MyItemList";
 import EditItemListing from "./EditItemListing";
 import RecommendationsPage from "./RecommendationsPage";
 import axios from "axios";
-import config from "../config.json"
+import config from "../config.json";
+import MessagesInbox from "./MessagesInbox";
+import MessageInboxDetails from "./MessageInboxDetails";
+import MessagesOutbox from "./MessagesOutbox";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -370,6 +373,95 @@ function RecommendationsStack({ navigation }) {
   );
 }
 
+function InboxStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="MessagesInbox">
+      <Stack.Screen
+        name="Inbox"
+        component={MessagesInbox}
+        options={{
+          title: "School Casa",
+          headerLeft: () => (
+            <NavigationDrawerStructure navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="MessageInboxDetails"
+        component={MessageInboxDetails}
+        options={{
+          title: "Message",
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function OutboxStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="MessagesOutbox">
+      <Stack.Screen
+        name="Inbox"
+        component={MessagesOutbox}
+        options={{
+          title: "School Casa",
+          headerLeft: () => (
+            <NavigationDrawerStructure navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="MessageInboxDetails"
+        component={MessageInboxDetails}
+        options={{
+          title: "Message",
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function signOutStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="SignOut">
+      <Stack.Screen
+        name="SignOut"
+        component={signOut}
+        // options={{
+        //   title: 'School Casa', //Set Header Title
+        // }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function signOutStack({ navigation }) {
   return (
     <Stack.Navigator initialRouteName="SignOut">
@@ -392,15 +484,14 @@ function signOut(props) {
   return <View></View>;
 }
 class Home extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       initialRouteName: "Apartment Recommendations"
-    }
+    };
     // this.checkUser = this.checkUser.bind(this);
   }
-  
+
   componentDidMount() {
     // this.checkUser();
   }
@@ -447,6 +538,16 @@ class Home extends React.Component {
             options={{ drawerLabel: "Preferences" }}
             component={preferencesStack}
           /> */}
+          <Drawer.Screen
+            name="Inbox"
+            options={{ drawerLabel: "Inbox" }}
+            component={InboxStack}
+          />
+          <Drawer.Screen
+            name="Outbox"
+            options={{ drawerLabel: "Outbox" }}
+            component={OutboxStack}
+          />
           <Drawer.Screen
             name="Sign Out"
             options={{ drawerLabel: "Sign Out" }}
