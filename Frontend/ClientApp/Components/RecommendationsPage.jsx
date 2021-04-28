@@ -19,7 +19,7 @@ export default function RecommendationsPage({ navigation }) {
   // }, [])
 
 
-  useEffect(() => {
+ useEffect(() => {
     const config = {
       headers: {
         "content-type": "application/json",
@@ -59,7 +59,7 @@ export default function RecommendationsPage({ navigation }) {
       .catch(function(error) {
         //console.log("Error " + JSON.stringify(error));
       });
-  };
+ };
   return (
     <View style={{ flex: 1, padding: 0 }}>
       {isLoading ? (
@@ -87,10 +87,10 @@ export default function RecommendationsPage({ navigation }) {
                   <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                     ${responseData.rent}
                   </Text>
-                  <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  <Text numberOfLines={3} style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.address}
                   </Text>
-                  <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  <Text numberOfLines={3} style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
                 </View>

@@ -148,15 +148,14 @@ class AddApartmentListing extends Component {
     } else {
       formData.append("image1", null);
     }
-    const config = {
+    const configuration = {
       headers: {
         "content-type": "multipart/form-data",
         Accept: "application/json",
       },
     };
     axios
-      .post(config.BackendUrl+ "/postAptLisiting/", formData, config)
-      // .post("http://192.168.86.180:8080" + "/postAptLisiting/", formData, config)
+      .post(config.BackendUrl+ "/postAptLisiting/", formData, configuration)
       .then(function (response) {
         return response;
       })
@@ -165,7 +164,7 @@ class AddApartmentListing extends Component {
         this.props.navigation.push("RentalListings");
       })
       .catch(function (error) {
-        // console.log("Error " + JSON.stringify(error));
+        //console.log("Error " + JSON.stringify(error));
       });
   };
 

@@ -204,10 +204,10 @@ export default function RentalListings({ navigation, route }) {
                   <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                     ${responseData.rent}
                   </Text>
-                  <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  <Text numberOfLines={3} style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.address}
                   </Text>
-                  <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                  <Text numberOfLines={3} style={{ fontSize: 15, fontWeight: "bold" }}>
                     {responseData.description}
                   </Text>
                   {/* <AntDesign
