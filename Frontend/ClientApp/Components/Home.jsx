@@ -462,20 +462,6 @@ function signOutStack({ navigation }) {
   );
 }
 
-function signOutStack({ navigation }) {
-  return (
-    <Stack.Navigator initialRouteName="SignOut">
-      <Stack.Screen
-        name="SignOut"
-        component={signOut}
-        // options={{
-        //   title: 'School Casa', //Set Header Title
-        // }}
-      />
-    </Stack.Navigator>
-  );
-}
-
 function signOut(props) {
   useEffect(() => {
     Auth.signOut();
