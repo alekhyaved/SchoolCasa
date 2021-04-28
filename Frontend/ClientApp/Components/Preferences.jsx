@@ -12,10 +12,10 @@ export class Preferences extends React.Component {
   constructor() {
     super();
     this.state = {
-        foodPref: "Non-Vegetarian",
-        studyTime: "Early morning",
-        isSmoking: "No",
-        isPetFriendly: "Yes",
+        foodPref: "NonVeg",
+        studyTime: "early",
+        isSmoking: "SmokeNo",
+        isPetFriendly: "petYes",
         email: global.email,
         isPreferencesSaved: false
     };
@@ -121,7 +121,7 @@ export class Preferences extends React.Component {
             <View style={{ flexDirection: "row" }}>
             <Text style={styles.textLabel}>Study Timings</Text>
             <Picker
-                    // selectedValue={this.state.studyTime}
+                    selectedValue={this.state.studyTime}
                     style={{height: 50, width: 200, marginLeft: 45}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ studyTime: itemValue })}
                 >
