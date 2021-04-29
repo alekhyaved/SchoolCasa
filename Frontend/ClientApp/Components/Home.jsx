@@ -58,7 +58,7 @@ function rentalListingsStack({ navigation }) {
         name="RentalListings"
         component={RentalListings}
         options={{
-          title: "School Casa", //Set Header Title
+          title: "Rental Listings", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -103,7 +103,7 @@ function rentalListingsStack({ navigation }) {
         name="Map"
         component={Map}
         options={{
-          title: "School Casa",
+          title: "School Casa for SJSU",
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -237,7 +237,7 @@ function itemListingsStack({ navigation }) {
         name="ItemListings"
         component={ItemList}
         options={{
-          title: "School Casa", //Set Header Title
+          title: "Item Listings", //Set Header Title
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -328,7 +328,7 @@ function RecommendationsStack({ navigation }) {
         name="RecommendationsPage"
         component={RecommendationsPage}
         options={{
-          title: "School Casa",
+          title: "School Casa for SJSU",
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -380,7 +380,7 @@ function InboxStack({ navigation }) {
         name="Inbox"
         component={MessagesInbox}
         options={{
-          title: "School Casa",
+          title: "Inbox",
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
@@ -417,7 +417,7 @@ function OutboxStack({ navigation }) {
         name="Inbox"
         component={MessagesOutbox}
         options={{
-          title: "School Casa",
+          title: "Outbox",
           headerLeft: () => (
             <NavigationDrawerStructure navigationProps={navigation} />
           ),
