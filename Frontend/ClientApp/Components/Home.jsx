@@ -25,6 +25,7 @@ import config from "../config.json";
 import MessagesInbox from "./MessagesInbox";
 import MessageInboxDetails from "./MessageInboxDetails";
 import MessagesOutbox from "./MessagesOutbox";
+import ItemDetails from "./ItemDetails";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -270,6 +271,20 @@ function itemListingsStack({ navigation }) {
         component={ItemList}
         options={{
           title: "Item List Details",
+          headerStyle: {
+            backgroundColor: "#ffdb58"
+          },
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="ItemDetails"
+        component={ItemDetails}
+        options={{
+          title: "Item Details",
           headerStyle: {
             backgroundColor: "#ffdb58"
           },

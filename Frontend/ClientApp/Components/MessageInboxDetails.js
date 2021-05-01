@@ -26,6 +26,12 @@ export default function MessageInboxDetails({ navigation, route }) {
       formData.append("subject", subject);
       formData.append("message", Message);
       formData.append("aptId", route.params.id);
+    } else if (route.params.messageFrom != undefined) {
+      formData.append("sender", route.params.sender);
+      formData.append("reciever", route.params.reciever);
+      formData.append("subject", subject);
+      formData.append("message", Message);
+      formData.append("aptId", route.params.apartmentId);
     } else {
       formData.append("sender", route.params.reciever);
       formData.append("reciever", route.params.sender);
