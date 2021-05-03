@@ -1,14 +1,10 @@
-import React, {Component, useEffect, useState} from "react";
-import MapView, {Circle, PROVIDER_GOOGLE} from 'react-native-maps'
+import React, {useEffect, useState} from "react";
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps'
 import {StyleSheet, Dimensions, ScrollView, Image, View, Text, Animated, TouchableOpacity} from 'react-native'
-import axios from "axios";
 
 const {width, height} = Dimensions.get("window");
 import {useTheme} from '@react-navigation/native';
-import MapMarker from "react-native-maps/lib/components/MapMarker";
-import sjsuImage from '../assets/sjsu_name.png'
-import {AntDesign, Foundation} from "@expo/vector-icons";
-import {Button} from "react-native-elements";
+import config from '../config';
 
 
 const screen = Dimensions.get("screen");
@@ -16,7 +12,6 @@ const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
-const sjsuUri = Image.resolveAssetSource(sjsuImage).uri;
 
 const styles = StyleSheet.create({
     container: {
@@ -33,7 +28,6 @@ const styles = StyleSheet.create({
         paddingRight: width - CARD_WIDTH,
     },
     card: {
-        // padding: 10,
         elevation: 10,
         backgroundColor: "#FFF",
         borderTopLeftRadius: 5,
@@ -82,13 +76,13 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: "rgba(104,17,150,0.9)",
+        backgroundColor: "rgba(44,1,66,0.9)",
     },
     ring: {
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        backgroundColor: "rgba(138,5,150,0.45)",
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: "rgba(65,3,71,0.45)",
         position: "absolute",
         borderWidth: 1,
         borderColor: "rgba(119,10,150,0.5)",
@@ -127,25 +121,19 @@ const styles = StyleSheet.create({
 });
 
 const Map = ({navigation, route}) => {
-    const [isLoading, setLoading] = useState(true);
     const [marker, setData] = useState([]);
     const theme = useTheme();
     let mapIndex = 0;
     let mapAnimation = new Animated.Value(0);
 
-
     useEffect(() => {
         setData(route.params);
-
-    }, []);
-
-    useEffect(() => {
         if (marker.length === 0)
             return;
         if (markerRef && markerRef.current && markerRef.current.showCallout) {
             markerRef.current.showCallout();
         }
-        // console.log("Use Effect called with setLoading = " + marker)
+
         mapAnimation.addListener(({value}) => {
             let index = Math.floor(value / CARD_WIDTH + 0.3);
             if (index >= marker.length) {
@@ -166,14 +154,14 @@ const Map = ({navigation, route}) => {
                         {
                             latitude: latitude,
                             longitude: longitude,
-                            latitudeDelta: 0.5,
-                            longitudeDelta: 0.5,
+                            latitudeDelta: 0.2,
+                            longitudeDelta: 0.2,
                         }, 350
                     );
                 }
             }, 10);
         });
-    }, [marker]);
+    });
 
     const interpolations = marker.map((marker, index) => {
         const inputRange = [
@@ -189,7 +177,7 @@ const Map = ({navigation, route}) => {
         });
         const opacity = mapAnimation.interpolate({
             inputRange,
-            outputRange: [0.35, 1, 0.35],
+            outputRange: [0.80, 2, 0.80],
             extrapolate: "clamp",
         });
 
@@ -210,12 +198,6 @@ const Map = ({navigation, route}) => {
     const markerRef = React.useRef(null);
     const _map = React.useRef(null);
     const _scrollView = React.useRef(null);
-    const OVERLAY_TOP_LEFT_COORDINATE = [37.35962245770899, -121.8846448487323];
-    const OVERLAY_BOTTOM_RIGHT_COORDINATE = [37.34632204166565, -121.85295561232773];
-    const  overlay =  {
-        bounds: [OVERLAY_TOP_LEFT_COORDINATE, OVERLAY_BOTTOM_RIGHT_COORDINATE],
-        image: sjsuImage,
-    };
 
     return (
         <View>
@@ -225,25 +207,23 @@ const Map = ({navigation, route}) => {
                 provider={PROVIDER_GOOGLE}
                 loadingEnabled={true}
                 initialRegion={{
-                    latitude: 37.33539213195991,
-                    longitude: -121.88246624866937,
-                    latitudeDelta: 0.148,
-                    longitudeDelta: 0.148
+                    latitude: config.initialRegion.latitude,
+                    longitude: config.initialRegion.longitude,
+                    latitudeDelta: config.initialRegion.latitudeDelta,
+                    longitudeDelta: config.initialRegion.longitudeDelta
                 }}>
-                {/*<CustomMarker/>*/}
                 <MapView.Marker
                     ref={markerRef}
                     coordinate={{
-                        latitude: 37.33539213195991,
-                        longitude: -121.88246624866937,
+                        latitude: config.initialRegion.latitude,
+                        longitude: config.initialRegion.longitude,
                     }}
                     calloutOffset={{ x: -8, y: 28 }}
                     calloutAnchor={{ x: 0.5, y: 0.4 }}
-                    // title={'SJSU'}
                 >
                     <MapView.Callout style={styles.plainView} tooltip={false}>
                         <View >
-                            <Text style={styles.sjsutextContent} >SJSU</Text>
+                            <Text style={styles.sjsutextContent} >{config.initialRegion.markerName}</Text>
                         </View>
                     </MapView.Callout>
                 </MapView.Marker>
@@ -259,9 +239,9 @@ const Map = ({navigation, route}) => {
                                 },
                             ],
                         };
-                        const opacityStyle = {
-                            opacity: interpolations[index].opacity,
-                        };
+                        // const opacityStyle = {
+                        //     opacity: interpolations[index].opacity,
+                        // };
                         return (
                             <MapView.Marker
                                 key={index}
@@ -270,23 +250,14 @@ const Map = ({navigation, route}) => {
                                     longitude: parseFloat(marker.longitude),
                                 }}
                                 onPress={(e) => onMarkerPress(e)}>
-                                <Animated.View style={[styles.markerWrap, opacityStyle]}>
+                                {/*<Animated.View style={[styles.markerWrap, opacityStyle]}>*/}
+                                <Animated.View style={[styles.markerWrap]}>
                                     <Animated.View style={[styles.ring, scaleStyle]}/>
                                     <View style={[styles.marker]}/>
                                 </Animated.View>
                             </MapView.Marker>
                         );
                     })}
-                {/*<MapView.Circle*/}
-                {/*    center={{ latitude: 37.33539213195991, longitude: -121.88246624866937 }}*/}
-                {/*    radius={1500}*/}
-                {/*    fillColor="rgba(255,0,0,0.3)"*/}
-                {/*    strokeWidth={0.5}*/}
-                {/*/>*/}
-                {/*<MapView.Overlay*/}
-                {/*    bounds={overlay.bounds}*/}
-                {/*    image={overlay.image}*/}
-                {/*/>*/}
             </MapView>
             <Animated.ScrollView
                 ref={_scrollView}

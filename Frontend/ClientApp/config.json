@@ -8,5 +8,14 @@
   "google": {
     "API_KEY": ""
   },
-  "BackendUrl": "http://192.168.0.2:8080"
+  "initialRegion": {
+      "latitude": 37.33539213195991,
+      "longitude": -121.88246624866937,
+      "latitudeDelta": 0.148,
+      "longitudeDelta": 0.148,
+      "markerName" : "SJSU"
+},
+  "BackendUrl": "http://192.168.0.7:8080"
 }
+
+
